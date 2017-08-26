@@ -1,0 +1,6 @@
+
+APAGAR TABELAS
+vendor/bin/doctrine orm:schema-tool:drop --full-database
+
+CRIAR SCHEMA DATABASE
+vendor/bin/doctrine orm:schema-tool:create

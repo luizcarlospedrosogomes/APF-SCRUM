@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
 
-
-
 //COMPONENTES
 import Login from './Login/Login';
-
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 export default  class App extends Component{
 
     render(){

@@ -1,6 +1,49 @@
 import React, { Component } from 'react';
+import FormCadastro from './FormCadastro';
+
 export default  class Login extends Component{
-    render(){
+    
+      login(event){
+        event.preventDefault();
+        this.setState({status:"carregando"});
+        const requestInfo = {
+            method:'POST',
+            body:JSON.stringify({email: this.email.value, senha:this.senha.value}),
+            headers:new Headers({'content-type' : 'application/json'})
+        };
+        console.log("SERVIDOR: "+ this.host);
+        console.log("URL :"+this.baseUrl+"/login")
+        console.log("DADOS ENVIADOS: "+requestInfo.body);
+        console.log("VERBO: POST")
+        
+        fetch(this.host+this.baseUrl+"/login",requestInfo)            
+            .then(response =>{
+            if(response.status === 200 ||  response.status === 201){
+                this.setState({cod:response.status, status:""});
+                console.log("sucesso no login");
+                return response.text();
+            }else{
+                this.setState({status:"", cod:response.status});
+                throw new Error('Não foi possivel fazer o login. Verifique usuario e senha.');
+            }
+        }).then(token =>{
+            console.log(token)
+            if(this.props.match.params.login === 'representante'){
+                localStorage.setItem('token-representante',token);
+                localStorage.setItem('email-representante',this.email.value);
+                this.props.history.push('/representante');
+            }else if(this.props.match.params.login === 'cliente'){
+                localStorage.setItem('token-cliente',token);
+                localStorage.setItem('email-cliente', this.email.value);
+                this.props.history.push('/cliente/'+this.email.value);
+            }
+        }).catch(error => {
+            this.setState({msg:error.message, cod:500, status:""});
+        })
+    }         
+  
+    
+      render(){
          return(
             <div>
                 <div className="header">
@@ -25,26 +68,7 @@ export default  class Login extends Component{
                         </div>
                     </div>
                     <div className="col-sm-6">
-                        <div className="panel panel-success">
-                            <div className="panel-heading">
-                                <div className="panel-title">Cadastro</div>
-                            </div>
-                            
-                            <div className="panel-body">
-                                <form className="form-group">
-                                    <label for="email">Email</label>
-                                    <input id="email" className="form-control" type="text" placeholder="Email" required="true"/>
-                                    <label for="ftime">Função no time</label>
-                                    <input id="ftime" className="form-control" type="text" placeholder="Função no time" required="true"/>
-                                    <label for="senha">Senha</label>
-                                    <input id="senha" className="form-control" type="password" placeholder="senha" required="true"/>
-                                    <label for="rsenha">Repita a senha</label>
-                                    <input id="rsenha" className="form-control" type="password"  placeholder="Repita a senha" required="true"/>
-                                    <button type="submit" className=" btn-fill btn-block btn btn-success btn-lg">Cadastrar</button>                       
-                                </form>
-
-                            </div>
-                        </div>
+                        <FormCadastro/>                       
                     </div>
                 </div>
             </div>
