@@ -125,7 +125,7 @@ $app->add(new \Slim\Middleware\HttpBasicAuthentication([
     /**
      * Whitelist - Protege todas as rotas e só libera as de dentro do array
      */
-    //"passthrough" => ["/v1/usuario", "/admin/ping"],
+   // "passthrough" => ["/v1/login", "/v1/usuario"],
 ]));
 /**
  * Auth básica do JWT
