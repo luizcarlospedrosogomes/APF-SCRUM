@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
 
 //COMPONENTES
+import ScrumMaster from './ScrumMaster/ScrumMaster';
+import ProductOwner from './ProductOwner/ProductOwner';
+import Desenvolvedor from './Desenvolvedor/Desenvolvedor';
 import Login from './Login/Login';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -10,13 +13,23 @@ export default  class App extends Component{
     render(){
         return(
            <Router>
-               
-     <div id="wrapper">
-              
-              <div className="container">
-                    
+            <div>
+          
+                <div className="container-fluid">
+        <main className="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+
+          <section className="row text-center placeholders">
+           
+          </section>
+          </main>
+      
+    
+                
                   <Switch> 
-                          <Route  path="" exact    component={ Login }/>
+                          <Route  path="/" exact    component={ Login }/>
+                          <Route  path="/productOwner"         component={ ProductOwner }/>
+                          <Route  path="/scrumMaster"         component={ ScrumMaster }/>
+                          <Route  path="/desenvolvedor"         component={ Desenvolvedor }/>
                   </Switch> 
               </div>
               
