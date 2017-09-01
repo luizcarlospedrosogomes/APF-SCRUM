@@ -43,7 +43,7 @@ export default  class Login extends Component{
          return(
             <div class="container">
                 <div className="header">
-                   <h1>Coisa</h1>
+                   <h1>Logo@</h1>
                 </div>
 
                 <div className="row">
