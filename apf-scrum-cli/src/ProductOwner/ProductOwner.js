@@ -4,47 +4,25 @@ import { Link  } from 'react-router-dom';
 //COMPONENTES
 import ScrumMaster from './ScrumMaster';
 import CriarProjeto from './CriarProjeto';
+import MenuSuperior from './MenuSuperior';
+import MenuEsquerdo from './MenuEsquerdo';
+
 export default  class ProductOwner extends Component{
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount(){
+    if (localStorage.getItem("token") === null) {
+      this.props.history.push('/?status=NAO_AUTENTICADO');
+    }
+  }
     render(){
          return(
         <div>
-            <nav className="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-            <button className="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <a className="navbar-brand" href="#">Product Owner</a>
-      
-            <div className="collapse navbar-collapse" id="navbarsExampleDefault">
-              <ul className="navbar-nav mr-auto">
-                
-              </ul>
-              <form className="form-inline mt-2 mt-md-0">
-                
-                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Sair</button>
-              </form>
-            </div>
-          </nav>
-    
+           <MenuSuperior/>    
       <div className="container-fluid">       
-        <nav className="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
-        <ul className="nav nav-pills flex-column">
-          <li className="nav-item">
-            <a className="nav-link active" href="">Projetos <span className="sr-only">(current)</span></a>
-          </li>
-          </ul>
-
-      </nav>
-     
-      <div className="row">
-      <div class="col-md-10 col-md-offset-1">
-          <div className="display-3">
-          <form>
-              <inptu type="text"/>
-            </form> 
-          </div>
-            
-          </div>
-          </div>
+          <MenuEsquerdo titulo="Projetos"/>
       <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
       <div className="row">
         <div className="col-sm-12">
@@ -113,12 +91,12 @@ export default  class ProductOwner extends Component{
                               <div className="row">
                                 <button 
                                     type="button" 
-                                    className="btn btn-primary btn-lg btn-block">
+                                    className="btn btn-primary btn-sm btn-block">
                                     Arquivar
                                 </button>                                
                                 <button 
                                       type="button" 
-                                      className="btn btn-secondary btn-lg btn-block">
+                                      className="btn btn-secondary btn-sm btn-block">
                                       <Link to="/backlog">Backlog</Link>
                                 </button>
                               </div>
@@ -128,8 +106,7 @@ export default  class ProductOwner extends Component{
                     </div>
                 </div>
                   <div className="card-footer">
-                    <div className="row">
-                      SCRUM MASTER: 
+                    <div className="row"> 
                         <ScrumMaster/>
                     </div>
                  </div>             

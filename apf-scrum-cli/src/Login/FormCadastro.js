@@ -82,9 +82,9 @@ export default  class Login extends Component{
                                         />
                                     </div>
 
-                                    <div className="form-group row">
+                                    <div className="form-group">
                                         <label  className="col-form-label" htmlFor="ftime">Função no time</label>
-                                        
+                                        <div className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg">
                                         <MuiThemeProvider>
                                         <SelectField  value={1}
                                         value={this.state.tipo}
@@ -98,12 +98,13 @@ export default  class Login extends Component{
                                         </SelectField>
                                         
                                         </MuiThemeProvider>
+                                        </div>
                                     </div>
 
                                     <div className="form-group row">
                                         <label className="col-form-label" htmlFor="senha">Senha</label>
                                         <input id="senha" 
-                                                className="form-control" 
+                                                className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg" 
                                                 type="password" 
                                                 placeholder="senha" 
                                                 required="true"

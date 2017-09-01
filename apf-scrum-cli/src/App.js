@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import {Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
 
 //COMPONENTES
-import ScrumMaster from './ScrumMaster/ScrumMaster';
-import ProductOwner from './ProductOwner/ProductOwner';
+import ScrumMaster   from './ScrumMaster/ScrumMaster';
+import ProductOwner  from './ProductOwner/ProductOwner';
+import Backlog       from './ProductOwner/Backlog';
 import Desenvolvedor from './Desenvolvedor/Desenvolvedor';
-import Login from './Login/Login';
+import Login         from './Login/Login';
+import Logout         from './Login/Logout';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 export default  class App extends Component{
@@ -27,8 +30,10 @@ export default  class App extends Component{
                 
                   <Switch> 
                           <Route  path="/" exact    component={ Login }/>
-                          <Route  path="/productOwner"         component={ ProductOwner }/>
-                          <Route  path="/scrumMaster"         component={ ScrumMaster }/>
+                          <Route  path="/logout"          component={ Logout }/>
+                          <Route  path="/productOwner"          component={ ProductOwner }/>
+                          <Route  path="/backlog"               component={ Backlog }/>
+                          <Route  path="/scrumMaster"           component={ ScrumMaster }/>
                           <Route  path="/desenvolvedor"         component={ Desenvolvedor }/>
                   </Switch> 
               </div>
