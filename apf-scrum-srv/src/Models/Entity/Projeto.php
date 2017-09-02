@@ -14,7 +14,6 @@ class Projeto{
     public $nome;
     /** @Column(type="datetime",  length=20)**/
     public $dataCriacao;
-    // ...
 
     /**
      * @ManyToOne(targetEntity="Usuario", cascade={"persist"})
@@ -50,8 +49,7 @@ class Projeto{
         $this->nome = $nome;
         return $this;
     }
-
-    public function setUsuario($usuario){
+  public function setUsuario($usuario){
         if(!$usuario && !is_string($usuario)){
             throw new \InvalidArgumentException("usuario requerido", 400);
         }

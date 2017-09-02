@@ -111,22 +111,7 @@ $app->add(new TrailingSlash(false));
 /**
  * Auth básica HTTP
  */
-$app->add(new \Slim\Middleware\HttpBasicAuthentication([
-    /**
-     * Usuários existentes
-     */
-    "users" => [
-        "root" => "toor"
-    ],
-    /**
-     * Blacklist - Deixa todas liberadas e só protege as dentro do array
-     */
-    "path" => ["/auth"],
-    /**
-     * Whitelist - Protege todas as rotas e só libera as de dentro do array
-     */
-   // "passthrough" => ["/v1/login", "/v1/usuario"],
-]));
+
 /**
  * Auth básica do JWT
  * Whitelist - Bloqueia tudo, e só libera os
@@ -143,14 +128,14 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
 /**
  * Proxys confiáveis
  */
-//$trustedProxies = ['0.0.0.0', '127.0.0.1','scrum-php.herokuapp.com'];
-//$app->add(new RKA\Middleware\SchemeAndHost($trustedProxies));
+$trustedProxies = ['0.0.0.0', '127.0.0.1','scrum-php.herokuapp.com'];
+$app->add(new RKA\Middleware\SchemeAndHost($trustedProxies));
 
 //CORS
 $app->add(new \Tuupola\Middleware\Cors([
     "origin" => ["*"],
     "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE","OPTIONS"],
-    "headers.allow" =>  ["Accept", "Content-Type"],
+    "headers.allow" =>  ["Accept", "Content-Type", "X-Token"],
     "headers.expose" => [],
     "credentials" => false,
     "cache" => 0,

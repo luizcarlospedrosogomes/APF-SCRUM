@@ -6,6 +6,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Firebase\JWT\JWT;
 
 use App\Models\Entity\Usuario as User;
+use App\Models\Entity\Equipe;
 
 
 class Usuario{
@@ -52,7 +53,7 @@ class Usuario{
                                  ->findOneBy(array('email' => $dados['email']
                                      ,'senha' => $dados['senha'])
                                 );
-        if($usuario == NULL){
+        if(!$usuario){
             $return = $response->withJson(['mensagem'=>'Usuario ou senha incorretos'], 401)
                                ->withHeader('Content-type', 'application/json');            
             return $return;
@@ -64,5 +65,24 @@ class Usuario{
                            ->withHeader('Content-type', 'application/json');
          return $return;     
 
+    }
+
+    public function getScrumMaster($request, $response, $args){
+        $dados = json_decode($request->getBody(),true);
+        $entityManager = $this->container->get('em');
+        $scrumMaster = $entityManager->getRepository('App\Models\Entity\Usuario')
+                                     ->findOneBy(array('email' => $dados['email']
+                                                        ,'tipoUsuario' => 2)
+                                    );
+        if(!$scrumMaster){
+            throw new \Exception("scrumMaster not Found", 404);
+        }
+        $equipe = (new Equipe())->setScrumMaster($scrumMaster);        
+
+        $entityManager->persist($equipe);
+        $entityManager->flush();
+        $return = $response->withJson($equipe, 201)
+                           ->withHeader('Content-type', 'application/json');
+        return $return;  
     }
 }

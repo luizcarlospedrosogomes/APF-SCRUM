@@ -32,24 +32,18 @@ class Tarefa{
                                  ->findOneBy(array('id' => $dados['id_projeto']));
         $usuario = $entityManager->getRepository('App\Models\Entity\Usuario')
                            ->findOneBy(array('email' => $email));
-        //var_dump($projeto);
-        if($projeto == NULL || $usuario == NULL){
-            // return $this->notFound('Houve um problema ao innserir os dados', $response);
-            $return = $response->withJson(['mensagem'=>$msg], 400)
-            ->withHeader('Content-type', 'application/json');            
-            return $return;
-        
+        if(!$projeto || $usuario){
+            throw new \Exception("projeto ou usuario incorretos", 400);
         }
-      $tarefa = (new Tar())->setNome($dados['nome'])
+       $tarefa = (new Tar())->setNome($dados['nome'])
                               ->setProjeto($projeto)
                               ->setDescricao($dados['descricao'])
                               ->setPrioridade($dados['prioridade']);
-                              //->setUsuario($usuario); 
-      // var_dump($tarefa);
-                               $entityManager->persist($tarefa);
-        $entityManager->flush();
-        $return = $response->withJson($tarefa, 201)
-        ->withHeader('Content-type', 'application/json');
+
+       $entityManager->persist($tarefa);
+       $entityManager->flush();
+       $return = $response->withJson($tarefa, 201)
+                        ->withHeader('Content-type', 'application/json');
         return $return;    
        
     }
@@ -59,41 +53,66 @@ class Tarefa{
         $idUsuario = $this->getIDToken($request->getHeader('X-token'));
         $entityManager = $this->container->get('em');
         $id = (int) $args['id'];
-        //$projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario,"id"=>$id));
-        $projeto = $entityManager->getRepository(Pro::class)->findOneBy(array("usuario"=>$idUsuario,"id"=>$id));
-        $nome =$dados['nome'];
-        if($projeto == NULL){
-            $this->notFound('projeto nao existe', $response);
+        $tarefa = $entityManager->getRepository(Tar::class)->findOneBy(array("projeto"=>$dados['id_projeto'],"id"=>$id));
+        
+        if(!$tarefa){
+            throw new \Exception("tarefa not Found", 404);
         }
-        $projeto->setNome($nome);
-        $entityManager->persist($projeto);
+        $tarefa->setNome($dados['nome']);
+        $tarefa->setPrioridade($dados['prioridade']);
+        $tarefa->setDescricao($dados['descricao']);
+        $entityManager->persist($tarefa);
         $entityManager->flush();
-        $return = $response->withJson($projeto, 201)
-        ->withHeader('Content-type', 'application/json');
+        $return = $response->withJson($tarefa, 201)
+                           ->withHeader('Content-type', 'application/json');
         return $return; 
         
     }
     public function visualizar($request, $response, $args){
         $idUsuario = $this->getIDToken($request->getHeader('X-token'));
         $entityManager = $this->container->get('em');
+        $idProjeto = $request->getHeader('id_projeto'); 
         $id = (int) $args['id'];
-        $projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario,"id"=>$id));
-        if($projeto == NULL){
-            $this->notFound('projeto nao existe', $response);
+        $tarefa = $entityManager->createQuery('select t. id, t.nome, t.descricao, t.dataCriacao, t.prioridade 
+                                             from App\Models\Entity\Tarefa t
+                                             join App\Models\Entity\Projeto p
+                                             with p.id = t.projeto
+                                             join App\Models\Entity\Usuario u
+                                             with u.id = p.usuario
+                                             where u.id = :idUsuario and  t.id = :id and p.id = :idProjeto');
+        $tarefa->setParameters(array(
+               'idUsuario' => $idUsuario ,
+               'id' => $id,
+               'idProjeto' => $idProjeto,
+                ));
+        if(!$tarefa){
+                    throw new \Exception("tarefa not Found", 404);
         }
-        $return = $response->withJson($projeto, 201)
-        ->withHeader('Content-type', 'application/json');
+
+        $return = $response->withJson($tarefa->getResult(), 201)
+                                             ->withHeader('Content-type', 'application/json');
         return $return;     
+       
     }
     public function listar($request, $response, $args){
-        $id = $this->getIDToken($request->getHeader('X-token')); 
+        $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
+        $idProjeto = $request->getHeader('id_projeto'); 
         $entityManager = $this->container->get('em');
-        $projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario,"id"=>$id));
-        if($projeto == NULL){
-            $this->notFound('Não existe projetos para este usuario', $response);
-        }
-        $return = $response->withJson($projeto, 201) 
-                          ->withHeader('Content-type', 'application/json');
+        $tarefa = $entityManager->createQuery('select p.id as idProjeto, t. id, t.nome, t.descricao, t.dataCriacao, t.prioridade 
+                                                from App\Models\Entity\Tarefa t
+                                                join App\Models\Entity\Projeto p
+                                                with p.id = t.projeto
+                                                join App\Models\Entity\Usuario u
+                                                with u.id = p.usuario
+                                                where u.id = :idUsuario and p.id = :idProjeto');
+        $tarefa->setParameters(array(
+        'idUsuario' => $idUsuario,
+        'idProjeto' => $idProjeto,
+        ));
+
+   
+        $return = $response->withJson($tarefa->getResult(), 200) 
+                           ->withHeader('Content-type', 'application/json');
         return $return;   
 
     }
@@ -110,12 +129,5 @@ class Tarefa{
         $decoded = JWT::decode($token[0], $key, array('HS256'));
         $decoded_array = (array) $decoded;
         return $decoded_array['id'];
-    }
-    function notFound($msg, $response){
-        
-         $return = $response->withJson(['mensagem'=>$msg], 400)
-                            ->withHeader('Content-type', 'application/json');            
-        return $return;
-        
     }
 }

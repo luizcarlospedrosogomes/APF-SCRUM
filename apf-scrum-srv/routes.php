@@ -22,4 +22,8 @@ $this->group('/tarefa', function() {
   $this->delete('/{id:[0-9]+}', '\App\Controller\Tarefa:Arquivar');
 });
 
+$this->group('/poscrummaster', function() {
+  $this->post('', '\App\Controller\Equipe:getScrumMaster');
+  $this->delete('', '\App\Controller\Equipe:removerScrumMaster');
+});
 });

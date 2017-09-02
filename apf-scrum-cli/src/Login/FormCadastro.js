@@ -38,7 +38,7 @@ export default  class Login extends Component{
                                 , tipo:this.state.tipo
                                 , senha: this.state.senha
                             }),
-            headers:{'Content-type'  : 'Application/json'}
+            headers:new Headers({'content-type' : 'application/json'})
         };
 
         fetch("http://scrum-php.herokuapp.com/v1/usuario",requestInfo)            
@@ -71,7 +71,7 @@ export default  class Login extends Component{
                             <div className="card-block">
                                 <form onSubmit={this.enviaForm.bind(this)}>
                                     
-                                    <div className="form-group row">
+                                <div className="form-control input-lg">
                                         <label className="col-form-label" htmlFor="email">Email</label>
                                         <input id="email" 
                                                 className="form-control" 
@@ -101,18 +101,20 @@ export default  class Login extends Component{
                                         </div>
                                     </div>
 
-                                    <div className="form-group row">
+                                    <div className="form-control input-lg">
                                         <label className="col-form-label" htmlFor="senha">Senha</label>
+                                        
                                         <input id="senha" 
-                                                className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg" 
+                                                className="form-control input-lg" 
                                                 type="password" 
                                                 placeholder="senha" 
                                                 required="true"
                                                 value={this.state.senha}
                                                 onChange={this.salvaAlteracao.bind(this, 'senha')}
                                         />
+                                        
                                     </div>
-                                    <div className="form-group row">
+                                    <div className="form-control input-lg">
                                         <label className="col-form-label" htmlFor="rsenha">Repita a senha</label>
                                         <input id="rsenha" 
                                                 className="form-control" 
