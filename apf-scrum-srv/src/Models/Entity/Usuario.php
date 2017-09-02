@@ -3,6 +3,7 @@ namespace App\Models\Entity;
 
 
 /**
+    *@Table(name="usuario", uniqueConstraints={@UniqueConstraint(name="email_unique", columns={"id","email"})})
    * @Entity @Table(name="usuario")
 **/
 

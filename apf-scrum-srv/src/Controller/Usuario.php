@@ -58,7 +58,7 @@ class Usuario{
             return $return;
         }
         $key = $this->container->get("secretkey");
-        $token = array("email" => $usuario->email);
+        $token = array("email" => $usuario->email,"id" => $usuario->id);
         $jwt = JWT::encode($token, $key);
         $return = $response->withJson(['tipousuario'=>$usuario->tipoUsuario,'jwt'=> $jwt],200)
                            ->withHeader('Content-type', 'application/json');
