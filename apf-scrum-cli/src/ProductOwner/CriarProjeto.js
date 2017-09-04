@@ -21,12 +21,12 @@ export default  class CriarProjeto extends Component{
             body:JSON.stringify({ nome:this.state.nome}),
             headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
         };
-//        http://localhost:8000/v1/projeto
 
-//http://scrum-php.herokuapp.com/v1/projeto
         fetch("http://scrum-php.herokuapp.com/v1/projeto",requestInfo)            
         .then(response =>{
         if(response.status === 200 || response.status === 201 ){
+            console.log("HEROKU")
+            console.log("PROJETO CRIADO COM SUCESSO")
             this.setState({msg:"Projeto criado com sucesso", cod:response.status});
             return response.text();
         }

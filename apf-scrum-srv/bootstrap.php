@@ -6,12 +6,13 @@ use Doctrine\ORM\EntityManager;
 use Psr7Middlewares\Middleware\TrailingSlash;
 use Monolog\Logger;
 use Firebase\JWT\JWT;
+use \Slim\Middleware\HttpBasicAuthentication\PdoAuthenticator;
 /**
  * Configurações
  */
 $configs = [
     'settings' => [
-          'determineRouteBeforeAppMiddleware' => true,
+         'determineRouteBeforeAppMiddleware' => true,
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
     ]   
@@ -108,22 +109,35 @@ $app = new \Slim\App($container);
  * false - Remove a / no final da URL
  */
 $app->add(new TrailingSlash(false));
-/**
- * Auth básica HTTP
- */
-
-/**
- * Auth básica do JWT
- * Whitelist - Bloqueia tudo, e só libera os
- * itens dentro do "passthrough"
- */
+//$app->add(new \Slim\Middleware\HttpBasicAuthentication([
+    /**
+     * Usuários existentes
+     */
+   /* "users" => [
+        "root" => "toor"
+    ],
+    //'realm' => 'Protected',
+    
+    /**
+     * Blacklist - Deixa todas liberadas e só protege as dentro do array
+     */
+    //"path" => ["/auth"],
+    /**
+     * Whitelist - Protege todas as rotas e só libera as de dentro do array
+     */
+//"passthrough" => ["/v1/login", "/v1/cadastro"],
+//]));
 $app->add(new \Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/",
     "header" => "X-Token",
     "path" => "/",
     "passthrough" => ["/v1/login", "/v1/usuario"],
     "realm" => "Protected",
-    "secret" => $container['secretkey']
+    "secret" => $container['secretkey'],
+    "relaxed" => ["localhost", "127.0.0.1", "scrum-php.herokuapp.com"],
+    "secure" => false,
+    "environment" => ["HTTP_AUTHORIZATION", "REDIRECT_HTTP_AUTHORIZATION"],
+  
 ]));
 /**
  * Proxys confiáveis
@@ -132,11 +146,20 @@ $trustedProxies = ['0.0.0.0', '127.0.0.1','scrum-php.herokuapp.com'];
 $app->add(new RKA\Middleware\SchemeAndHost($trustedProxies));
 
 //CORS
-$app->add(new \Tuupola\Middleware\Cors([
+ $app->add(new \Tuupola\Middleware\Cors([
     "origin" => ["*"],
     "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE","OPTIONS"],
-    "headers.allow" =>  ["Accept", "Content-Type", "X-Token"],
+    "headers.allow" =>  ["Authorization","Accept", "Content-Type", "X-Token"],
     "headers.expose" => [],
     "credentials" => false,
-    "cache" => 0,
-])); 
+    "cache" => 86400,
+    "error" => function ($request, $response, $arguments) {
+        $data["status"] = "error";
+        $data["message"] = $arguments["message"];
+        return $response
+            ->withHeader("Content-Type", "application/json")
+            ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    }
+]));  
+
+

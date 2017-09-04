@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6835b8707c9bcf4d8a53129d2d1efaab",
+    "content-hash": "050bda2dbe1d43eb89a352de4391776b",
     "packages": [
         {
             "name": "akrabat/rka-scheme-and-host-detection-middleware",
@@ -296,16 +296,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.8.0",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "ed349f953d443963c590b008b37b864b8a3c4b21"
+                "reference": "f68c297ce6455e8fd794aa8ffaf9fa458f6ade66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/ed349f953d443963c590b008b37b864b8a3c4b21",
-                "reference": "ed349f953d443963c590b008b37b864b8a3c4b21",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/f68c297ce6455e8fd794aa8ffaf9fa458f6ade66",
+                "reference": "f68c297ce6455e8fd794aa8ffaf9fa458f6ade66",
                 "shasum": ""
             },
             "require": {
@@ -365,20 +365,20 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2017-07-22T09:01:43+00:00"
+            "time": "2017-08-31T08:43:38+00:00"
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.6.1",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "1a086f853425b1f5349775ce57e45a772d2d2ba5"
+                "reference": "1a4ee83a5a709555f2c6f9057a3aacf892451c7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1a086f853425b1f5349775ce57e45a772d2d2ba5",
-                "reference": "1a086f853425b1f5349775ce57e45a772d2d2ba5",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1a4ee83a5a709555f2c6f9057a3aacf892451c7e",
+                "reference": "1a4ee83a5a709555f2c6f9057a3aacf892451c7e",
                 "shasum": ""
             },
             "require": {
@@ -438,7 +438,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-07-28T10:40:18+00:00"
+            "time": "2017-08-28T11:02:56+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -814,28 +814,28 @@
         },
         {
             "name": "neomerx/cors-psr7",
-            "version": "v1.0.11",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neomerx/cors-psr7.git",
-                "reference": "cc0413d6843ca27f90d15dbaf3bc6f9f972476f0"
+                "reference": "24944f39483d1a89f66ae9d58cca9f82b8815b35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neomerx/cors-psr7/zipball/cc0413d6843ca27f90d15dbaf3bc6f9f972476f0",
-                "reference": "cc0413d6843ca27f90d15dbaf3bc6f9f972476f0",
+                "url": "https://api.github.com/repos/neomerx/cors-psr7/zipball/24944f39483d1a89f66ae9d58cca9f82b8815b35",
+                "reference": "24944f39483d1a89f66ae9d58cca9f82b8815b35",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0",
+                "php": ">=5.6.0",
                 "psr/http-message": "^1.0",
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^4.8",
+                "mockery/mockery": "^0.9.9",
+                "phpunit/phpunit": "^5.7",
                 "scrutinizer/ocular": "^1.1",
-                "squizlabs/php_codesniffer": "^2.5"
+                "squizlabs/php_codesniffer": "^3.0"
             },
             "type": "library",
             "autoload": {
@@ -865,7 +865,7 @@
                 "w3.org",
                 "www.w3.org"
             ],
-            "time": "2016-08-03T16:32:06+00:00"
+            "time": "2017-09-03T22:31:57+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -912,16 +912,16 @@
         },
         {
             "name": "oscarotero/psr7-middlewares",
-            "version": "v3.20.0",
+            "version": "v3.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oscarotero/psr7-middlewares.git",
-                "reference": "34af332804e03703dc28f009a7b2c6a35268b81f"
+                "reference": "f173bc29f51252d6015fc326cf940d5e4679226a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oscarotero/psr7-middlewares/zipball/34af332804e03703dc28f009a7b2c6a35268b81f",
-                "reference": "34af332804e03703dc28f009a7b2c6a35268b81f",
+                "url": "https://api.github.com/repos/oscarotero/psr7-middlewares/zipball/f173bc29f51252d6015fc326cf940d5e4679226a",
+                "reference": "f173bc29f51252d6015fc326cf940d5e4679226a",
                 "shasum": ""
             },
             "require": {
@@ -1005,7 +1005,7 @@
                 "psr-7",
                 "psr-messages"
             ],
-            "time": "2017-03-23T18:11:12+00:00"
+            "time": "2017-08-22T06:04:24+00:00"
         },
         {
             "name": "palanik/corsslim",
@@ -1320,20 +1320,20 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.3.6",
+            "version": "v3.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "b0878233cb5c4391347e5495089c7af11b8e6201"
+                "reference": "d6596cb5022b6a0bd940eae54a1de78646a5fda6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/b0878233cb5c4391347e5495089c7af11b8e6201",
-                "reference": "b0878233cb5c4391347e5495089c7af11b8e6201",
+                "url": "https://api.github.com/repos/symfony/console/zipball/d6596cb5022b6a0bd940eae54a1de78646a5fda6",
+                "reference": "d6596cb5022b6a0bd940eae54a1de78646a5fda6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9",
+                "php": "^5.5.9|>=7.0.8",
                 "symfony/debug": "~2.8|~3.0",
                 "symfony/polyfill-mbstring": "~1.0"
             },
@@ -1346,7 +1346,6 @@
                 "symfony/dependency-injection": "~3.3",
                 "symfony/event-dispatcher": "~2.8|~3.0",
                 "symfony/filesystem": "~2.8|~3.0",
-                "symfony/http-kernel": "~2.8|~3.0",
                 "symfony/process": "~2.8|~3.0"
             },
             "suggest": {
@@ -1385,24 +1384,24 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-29T21:27:59+00:00"
+            "time": "2017-08-27T14:52:21+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v3.3.6",
+            "version": "v3.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13"
+                "reference": "084d804fe35808eb2ef596ec83d85d9768aa6c9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
-                "reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/084d804fe35808eb2ef596ec83d85d9768aa6c9d",
+                "reference": "084d804fe35808eb2ef596ec83d85d9768aa6c9d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9",
+                "php": "^5.5.9|>=7.0.8",
                 "psr/log": "~1.0"
             },
             "conflict": {
@@ -1441,7 +1440,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-28T15:27:31+00:00"
+            "time": "2017-08-27T14:52:21+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
