@@ -26,12 +26,11 @@ export default  class Login extends Component{
             }
         }).then(dados =>{
             localStorage.setItem('token',dados.jwt);
-            console.log(dados.jwt);
-            if(dados.tipousuario === 1)
-                 this.props.history.push('/productOwner');
-            if(dados.tipousuario === 2)
+            if(dados.tipousuario === '1')
+                this.props.history.push('/productOwner');
+            if(dados.tipousuario === '2')
                 this.props.history.push('/scrumMaster');
-            if(dados.tipousuario === 3)
+            if(dados.tipousuario === '3')
                 this.props.history.push('/desenvolvedor');
 
         }).catch(error => {

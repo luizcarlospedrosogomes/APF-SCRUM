@@ -54,7 +54,7 @@ class Tarefa{
         $idUsuario = $this->getIDToken($request->getHeader('X-Token'));
         $entityManager = $this->container->get('em');
         $id = (int) $args['id'];
-        $tarefa = $entityManager->getRepository(Tar::class)->findOneBy(array("projeto"=>$dados['id_projeto'],"id"=>$id));
+        $tarefa = $entityManager->getRepository(Tar::class)->find($id);
         
         if(!$tarefa){
             throw new \Exception("tarefa not Found", 404);
@@ -72,19 +72,19 @@ class Tarefa{
     public function visualizar($request, $response, $args){
         $idUsuario = $this->getIDToken($request->getHeader('X-token'));
         $entityManager = $this->container->get('em');
-        $idProjeto = $request->getHeader('id_projeto'); 
         $id = (int) $args['id'];
+    
         $tarefa = $entityManager->createQuery('select t. id, t.nome, t.descricao, t.dataCriacao, t.prioridade 
                                              from App\Models\Entity\Tarefa t
                                              join App\Models\Entity\Projeto p
                                              with p.id = t.projeto
                                              join App\Models\Entity\Usuario u
                                              with u.id = p.usuario
-                                             where u.id = :idUsuario and  t.id = :id and p.id = :idProjeto');
+                                             where u.id = :idUsuario and  t.id = :id
+                                             ORDER BY t.prioridade');
         $tarefa->setParameters(array(
                'idUsuario' => $idUsuario ,
                'id' => $id,
-               'idProjeto' => $idProjeto,
                 ));
         if(!$tarefa){
                     throw new \Exception("tarefa not Found", 404);
@@ -105,7 +105,8 @@ class Tarefa{
                                                 with p.id = t.projeto
                                                 join App\Models\Entity\Usuario u
                                                 with u.id = p.usuario
-                                                where u.id = :idUsuario and p.id = :idProjeto and t.prioridade >0');
+                                                where u.id = :idUsuario and p.id = :idProjeto and t.prioridade >0
+                                                ORDER BY t.prioridade');
         $tarefa->setParameters(array(
         'idUsuario' => $idUsuario,
         'idProjeto' => $idProjeto,

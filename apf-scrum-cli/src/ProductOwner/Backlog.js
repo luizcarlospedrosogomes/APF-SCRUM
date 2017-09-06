@@ -23,6 +23,10 @@ export default  class Backlog extends Component{
           PubSub.subscribe('removerTarefa', function(topico){
             this.preencheLista();
           }.bind(this)); 
+
+          PubSub.subscribe('tarefaAtualizada', function(topico, response){
+            this.preencheLista();
+          }.bind(this));
     
         if (localStorage.getItem("token") === null) {
           this.props.history.push('/');
@@ -86,7 +90,7 @@ export default  class Backlog extends Component{
                                             <td>{
                                                 t.prioridade === 1 ? "Alta" : "" 
                                                 || t.prioridade === 2 ? "Media" : ""
-                                                || t.prioridade === 3 ? "Media" : ""  }</td>
+                                                || t.prioridade === 3 ? "Baixa" : ""  }</td>
                                             <td>{t.nome}</td>
                                             <td>{t.descricao}</td>
                                             <td>140</td>

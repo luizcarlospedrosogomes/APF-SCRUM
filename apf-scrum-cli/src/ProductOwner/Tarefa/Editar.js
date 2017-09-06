@@ -3,23 +3,42 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import PubSub from 'pubsub-js';
+
 import FormTarefa from './FormTarefa';
 
 export default  class Editar extends Component{
     state = {
-        open: false,
+        open: false,msg:''
       };
-    
-      handleOpen = () => {
-          
+      componentWillMount(){
+        var tarefaAtualizada = PubSub.subscribe('tarefaAtualizada', function(topico, status){
+          if(status ===201){
+            this.setState({open: false});
+          }else{
+            this.setState({msg:"Verfique os campos"});
+          }
+        }.bind(this)); 
+    }
+    componentDidMount(){
+        PubSub.unsubscribe(this.tarefaAtualizada);
+       // PubSub.unsubscribe(this.excluir);
+    }
+      handleOpen = () => {          
         this.setState({open: true});
       };
     
       handleClose = () => {
         this.setState({open: false});
       };
+      handleAtualizarTarefa = () => {
+        PubSub.publish("atualizarTarefa"); 
+        this.handleClose; 
+      };
+
       handleCancelar = () => {
         this.setState({open: false});
+        
       };
     
       render() {
@@ -33,7 +52,7 @@ export default  class Editar extends Component{
             label="Atualizar"
             primary={true}
             keyboardFocused={true}
-            onClick={this.handleClose}
+            onClick={this.handleAtualizarTarefa}
           />,
         ];
     
@@ -49,7 +68,8 @@ export default  class Editar extends Component{
               onRequestClose={this.handleClose}
               autoScrollBodyContent={true}
             >
-            <FormTarefa/>
+            <FormTarefa idTarefa={this.props.idTarefa}/>
+
             </Dialog>
             
           </div>

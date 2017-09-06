@@ -137,7 +137,7 @@ export default  class ProductOwner extends Component{
                                 <button 
                                       type="button" 
                                       className="btn btn-secondary btn-sm btn-block">
-                                      <Link to={'/promocao/editar/'+projeto.id}>Backlog</Link>      
+                                      <Link to={'/backlog/'+projeto.id}>Backlog</Link>      
                                                                     
                                 </button>
                               </div>
