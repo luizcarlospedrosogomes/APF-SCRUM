@@ -86,7 +86,7 @@ export default  class Login extends Component{
                                         <label  className="col-form-label" htmlFor="ftime">Função no time</label>
                                         <div className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg">
                                         <MuiThemeProvider>
-                                        <SelectField  value={1}
+                                        <SelectField
                                         value={this.state.tipo}
                                         onChange={this.handleChange}
                                         autoWidth={true}
@@ -124,7 +124,7 @@ export default  class Login extends Component{
                                             
                                         />
                                     </div>
-                                    <div class="form-group row">
+                                    <div className="form-group row">
                                             <button type="submit" 
                                             className=" btn-fill btn-block btn btn-success btn-lg">
                                             Cadastrar

@@ -32,7 +32,7 @@ export default  class App extends Component{
                           <Route  path="/" exact    component={ Login }/>
                           <Route  path="/logout"          component={ Logout }/>
                           <Route  path="/productOwner"          component={ ProductOwner }/>
-                          <Route  path="/backlog"               component={ Backlog }/>
+                          <Route  path="/backlog/:idProjeto"               component={ Backlog }/>
                           <Route  path="/scrumMaster"           component={ ScrumMaster }/>
                           <Route  path="/desenvolvedor"         component={ Desenvolvedor }/>
                   </Switch> 

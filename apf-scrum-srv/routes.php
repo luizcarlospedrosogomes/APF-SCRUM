@@ -22,8 +22,9 @@ $app->group('/v1', function() {
       $this->delete('/{id:[0-9]+}', '\App\Controller\Tarefa:Arquivar');
     });
 
-    $this->group('/poscrummaster', function() {
-      $this->post('', '\App\Controller\Equipe:getScrumMaster');
-      $this->delete('', '\App\Controller\Equipe:removerScrumMaster');
+    $this->group('/equipe/scrummaster', function() {
+      $this->post('/{id_projeto:[0-9]+}', '\App\Controller\Equipe:atualizarScrumMaster');
+      $this->get('/{id_projeto:[0-9]+}', '\App\Controller\Equipe:getScrumMaster');
+      $this->delete('/{id_projeto:[0-9]+}', '\App\Controller\Equipe:removerScrumMaster');
     });
 });

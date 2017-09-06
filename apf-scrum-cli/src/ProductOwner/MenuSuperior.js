@@ -10,7 +10,7 @@ export default  class MenuSuperior extends Component{
                     <button className="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" href="#">Product Owner</a>            
+                    <a className="navbar-brand" href="">Product Owner</a>            
                     <div className="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul className="navbar-nav mr-auto"></ul>
                     

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link  } from 'react-router-dom';
-
+import PubSub from 'pubsub-js';
 //COMPONENTES
 import ScrumMaster from './ScrumMaster';
 import CriarProjeto from './CriarProjeto';
@@ -10,21 +10,54 @@ import MenuEsquerdo from './MenuEsquerdo';
 export default  class ProductOwner extends Component{
   constructor(props) {
     super(props);
+    this.state = {lista : [], msg: '' };    
   }
 
   componentWillMount(){
+    this.preencheLista();
+
+    PubSub.subscribe('atualizaLista', function(topico){
+        this.preencheLista();
+      }.bind(this)); 
+
     if (localStorage.getItem("token") === null) {
-      this.props.history.push('/?status=NAO_AUTENTICADO');
+      this.props.history.push('/');
     }
   }
+  preencheLista(){ 
+
+        const requestInfo = {
+            method:'GET',
+            dataType: 'json',
+            headers:{'X-token': localStorage.getItem('token')}
+        };
+
+        fetch("http://scrum-php.herokuapp.com/v1/projeto", requestInfo)
+        .then(response =>{
+            if(response.status === 200 || response.status === 201){
+                console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                return response.json();
+              }if(response.status === 401){
+                console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
+                //this.props.history.push('/logout/representante');
+              }
+        })
+        .then(projetos =>{
+            console.log("DADOS RECEBIDOS:" +projetos);
+            if(projetos.length > 0){
+               this.setState({lista:projetos});        
+            }
+          });
+    }
+
     render(){
          return(
         <div>
            <MenuSuperior/>    
       <div className="container-fluid">       
           <MenuEsquerdo titulo="Projetos"/>
-      <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
-      <div className="row">
+      <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main" key="sjsjsj">
+      <div className="row" key="linhaCriarProjeto">
         <div className="col-sm-12">
             <div className="card">
               <div className="card-block">
@@ -35,16 +68,23 @@ export default  class ProductOwner extends Component{
         
       </div>
       <br/>
-          <div className="row">
-            <div className="col-md-6">
+     
+        <div className="row" key="linhaProjeto">
+          { this.state.lista.map(function(projeto){
+           return (
+            <div className="col-md-6" key={projeto.id}>
               <div className="card">
-                <div className="card-header bg-primary text-white">PROJETO</div>
+              
+                <div className="card-header bg-primary text-white">
+                            PROJETO: {projeto.nome} - 
+                     <span className="text-right"> {projeto.id}</span>
+               </div>
                 <div className="card-block">
-                    <div className="row">
-                        <div className="col-lg-4">                            
-                              <div className="card">                      
-                                <div className="card-block">
-                                  <div className="content h1">100%</div>
+                    <div className="row" >
+                        <div className="col-lg-4" >                            
+                              <div className="card" >                      
+                                <div className="card-block" >
+                                  <div className="content h1" >100%</div>
                                 </div>
                                   <div className="card-footer text-center small bg-danger text-white">CONCLUIDO</div>             
                               </div>
@@ -97,7 +137,8 @@ export default  class ProductOwner extends Component{
                                 <button 
                                       type="button" 
                                       className="btn btn-secondary btn-sm btn-block">
-                                      <Link to="/backlog">Backlog</Link>
+                                      <Link to={'/promocao/editar/'+projeto.id}>Backlog</Link>      
+                                                                    
                                 </button>
                               </div>
                             </div>                        
@@ -107,56 +148,19 @@ export default  class ProductOwner extends Component{
                 </div>
                   <div className="card-footer">
                     <div className="row"> 
-                        <ScrumMaster/>
+                        <ScrumMaster idProjeto= {projeto.id}/>
                     </div>
                  </div>             
             </div>
+            <br/>
           </div>
-          <div className="col-lg-6">
-            <div className="card">
-                <div className="card-header">
-                    Featured
-                </div>
-                <div className="card-block">
-                    <div className="row">
-                        <div className="col-md-2">
-                            <div className="photo-box">
-                                <img className="img-fluid" src="http://placehold.it/400x300" alt="image"/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="photo-box">
-                                <img className="img-fluid" src="http://placehold.it/400x300" alt="image"/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="photo-box">
-                                <img className="img-fluid" src="http://placehold.it/400x300" alt="image"/>
-                            </div>
-                        </div>
-                    </div>
-                    <p></p>
-                    <div className="row">
-                        <div className="col-md-2">
-                            <div className="photo-box">
-                                <img className="img-fluid" src="http://placehold.it/400x300" alt="image"/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="photo-box">
-                                <img className="img-fluid" src="http://placehold.it/400x300" alt="image"/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="photo-box">
-                                <img className="img-fluid" src="http://placehold.it/400x300" alt="image"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
+          
+            );
+           })
+          } 
+          
         </div>
+        
         </main>
         </div>
       </div>

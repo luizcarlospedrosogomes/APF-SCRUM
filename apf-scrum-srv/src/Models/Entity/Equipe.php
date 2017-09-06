@@ -32,12 +32,18 @@ class Equipe{
      * @JoinColumn(name="time", referencedColumnName="id")
      */
     public $time = null;
+
+    /**
+     * @ManyToOne(targetEntity="Projeto", cascade={"persist"})
+     * @JoinColumn(name="projeto", referencedColumnName="id")
+     */
+     public $projeto = null;
     
      public function __construct()
      {
         $this->dataCriacao = new \DateTime();
         $this->nome = "equipe";
-        $this->scrumMaster = new ArrayCollection();
+       // $this->scrumMaster = new ArrayCollection();
        // $this->productOwner = new ArrayCollection();
      }
 
@@ -50,6 +56,9 @@ class Equipe{
         return $this->scrumMaster;
     } 
 
+    public function getProjeto(){
+        return $this->projeto;
+    } 
     public function setProductOwner($productOwner){
         $this->productOwner = $productOwner;
         return $this;
@@ -58,4 +67,9 @@ class Equipe{
     public function getProductOwner(){
         return $this->productOwner;
     } 
+
+    public function setProjeto($projeto){
+        $this->projeto = $projeto;
+        return $this;
+    }
 }

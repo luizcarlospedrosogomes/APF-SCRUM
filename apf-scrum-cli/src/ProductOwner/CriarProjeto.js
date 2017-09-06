@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
+
 export default  class CriarProjeto extends Component{
     
     constructor(props) {
@@ -25,17 +27,17 @@ export default  class CriarProjeto extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/projeto",requestInfo)            
         .then(response =>{
         if(response.status === 200 || response.status === 201 ){
-            console.log("HEROKU")
-            console.log("PROJETO CRIADO COM SUCESSO")
             this.setState({msg:"Projeto criado com sucesso", cod:response.status});
-            return response.text();
+            PubSub.publish("atualizaLista");      
+            return response;
         }
         if(response.status === 400){
           this.setState({msg:"Verefique os campos.", cod:response.status});
           throw new Error('Verifique os campos');
         }
         if(response.status === 401){
-            this.props.history.push('/?NaoAutenticado');
+            console.log("401")
+            this.props.history.push('/');
           }
         else{
             this.setState({msg:"Entre em contato com o administrador.", cod:response.status});

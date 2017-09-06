@@ -67,22 +67,4 @@ class Usuario{
 
     }
 
-    public function getScrumMaster($request, $response, $args){
-        $dados = json_decode($request->getBody(),true);
-        $entityManager = $this->container->get('em');
-        $scrumMaster = $entityManager->getRepository('App\Models\Entity\Usuario')
-                                     ->findOneBy(array('email' => $dados['email']
-                                                        ,'tipoUsuario' => 2)
-                                    );
-        if(!$scrumMaster){
-            throw new \Exception("scrumMaster not Found", 404);
-        }
-        $equipe = (new Equipe())->setScrumMaster($scrumMaster);        
-
-        $entityManager->persist($equipe);
-        $entityManager->flush();
-        $return = $response->withJson($equipe, 201)
-                           ->withHeader('Content-type', 'application/json');
-        return $return;  
-    }
 }

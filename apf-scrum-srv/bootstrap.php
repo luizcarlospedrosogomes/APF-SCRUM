@@ -149,7 +149,7 @@ $app->add(new RKA\Middleware\SchemeAndHost($trustedProxies));
  $app->add(new \Tuupola\Middleware\Cors([
     "origin" => ["*"],
     "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE","OPTIONS"],
-    "headers.allow" =>  ["Authorization","Accept", "Content-Type", "X-Token"],
+    "headers.allow" =>  ["Authorization","Accept", "Content-Type", "X-Token", "id_projeto"],
     "headers.expose" => [],
     "credentials" => false,
     "cache" => 86400,

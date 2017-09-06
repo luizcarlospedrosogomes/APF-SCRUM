@@ -7,6 +7,7 @@ use Firebase\JWT\JWT;
 
 use App\Models\Entity\Projeto as Pro;
 use App\Models\Entity\Usuario as User;
+use App\Models\Entity\Equipe;
 
 class Projeto{
      
@@ -36,6 +37,10 @@ class Projeto{
         $projeto = (new Pro())->setNome($dados['nome'])
                               ->setUsuario($usuario); 
         $entityManager->persist($projeto);
+        $equipe = (new Equipe())->setProjeto($projeto)
+                                //->setProductOwner($projeto)
+                                ; 
+        $entityManager->persist($equipe);
         $entityManager->flush();
         $return = $response->withJson($projeto, 201)
         ->withHeader('Content-type', 'application/json');
@@ -74,9 +79,9 @@ class Projeto{
         return $return;     
     }
     public function listar($request, $response, $args){
-        $id = $this->getIDToken($request->getHeader('X-token')); 
+        $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
         $entityManager = $this->container->get('em');
-        $projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario,"id"=>$id));
+        $projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario));
         if($projeto == NULL){
             $this->notFound('Não existe projetos para este usuario', $response);
         }
