@@ -64,14 +64,14 @@ export default  class CriarTarefa extends Component{
     }
     render(){
          return(
-            <div>
+            <div className="col-12 col-sm-12 col-md-10">
                 <form className="form-inline" onSubmit={this.enviaForm.bind(this)}>
                 <div className="input-group input-group-lg">
                     <input 
                         type="text" 
                         placeholder="Nome da tarefa" 
                         id="nome" 
-                        className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg"
+                        className="form-control mb-2 mr-sm-2 mb-sm-0 input-sm"
                         value={this.state.nome}
                         onChange={this.salvaAlteracao.bind(this, 'nome')}
                         required
@@ -90,7 +90,7 @@ export default  class CriarTarefa extends Component{
                     
                     </MuiThemeProvider>
                     <textarea 
-                        className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg"
+                        className="form-control mb-2 mr-sm-2 mb-sm-0 input-sm"
                         id="exampleTextarea" 
                         placeholder="Descrição"
                         rows="1"

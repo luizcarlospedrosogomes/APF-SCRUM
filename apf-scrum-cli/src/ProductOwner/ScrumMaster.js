@@ -79,19 +79,19 @@ export default  class ScrumMaster extends Component{
          return(
             <div>
                 <form className="form-inline" onSubmit={this.enviaForm.bind(this)}>
-                    <label className="mr-sm-2" htmlFor="nome">SCRUM MASTER</label>
+                    <label className="" htmlFor="email">SCRUM MASTER</label>
                     <input 
                         placeholder="email@valido.com" 
                         type="email" 
-                        className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg"
+                        className="input-control mb-2 mr-sm-2 mb-sm-0"
                         value={this.state.email}
                         onChange={this.salvaAlteracao.bind(this, 'email')}
-                        
+                        id="email"
                         disabled = {(this.state.vinculado) === 'SIM' ? true : false }
                     />
                     <button 
                         type="submit" 
-                        className={`btn  btn-sm ${this.state.vinculado === 'SIM' ? 'btn-danger' : 'btn-primary'}`}>
+                        className={`btn btn-sm ${this.state.vinculado === 'SIM' ? 'btn-danger' : 'btn-primary'}`}>
                         {this.state.vinculado === 'SIM' ? 'Remover' : 'Adicionar'}
                     </button>
                 </form>

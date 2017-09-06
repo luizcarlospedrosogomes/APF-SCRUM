@@ -49,7 +49,7 @@ export default  class CriarProjeto extends Component{
     }
     render(){
          return(
-            <div>
+            <div className="col-sm-12 col-md-10">
                 <form className="form-inline" onSubmit={this.enviaForm.bind(this)}>
                 <label className="mr-sm-2" htmlFor="nome">Nome Projeto</label>
                 <input 

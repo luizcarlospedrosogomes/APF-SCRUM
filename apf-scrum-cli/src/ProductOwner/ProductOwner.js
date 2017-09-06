@@ -69,19 +69,18 @@ export default  class ProductOwner extends Component{
       </div>
       <br/>
      
-        <div className="row" key="linhaProjeto">
+        <div className="row">
           { this.state.lista.map(function(projeto){
            return (
-            <div className="col-md-6" key={projeto.id}>
+            <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" key={projeto.id}>
               <div className="card">
               
                 <div className="card-header bg-primary text-white">
-                            PROJETO: {projeto.nome} - 
-                     <span className="text-right"> {projeto.id}</span>
+                            PROJETO: {projeto.nome}
                </div>
                 <div className="card-block">
                     <div className="row" >
-                        <div className="col-lg-4" >                            
+                        <div className="col-12 col-sm-4 col-md-4 col-lg-4" >                            
                               <div className="card" >                      
                                 <div className="card-block" >
                                   <div className="content h1" >100%</div>
@@ -89,7 +88,7 @@ export default  class ProductOwner extends Component{
                                   <div className="card-footer text-center small bg-danger text-white">CONCLUIDO</div>             
                               </div>
                         </div>
-                        <div className="col-lg-4">   
+                        <div className="col-12 col-sm-4 col-md-4 col-lg-4">   
                         <div className="card">                      
                                 <div className="card-block">
                                   <div className="content h1 text-center">6</div>
@@ -97,7 +96,7 @@ export default  class ProductOwner extends Component{
                                 <div className="card-footer text-center small bg-warning text-white ">QTD EQUIPE</div>             
                               </div>                       
                         </div>
-                        <div className="col-lg-4">  
+                        <div className="col-12 col-sm-4 col-md-4 col-lg-4">  
                           <div className="card">                      
                               <div className="card-block">
                                   <div className="content h1 text-center">0</div>
@@ -108,7 +107,7 @@ export default  class ProductOwner extends Component{
                     </div>
                     <p></p>
                     <div className="row">
-                        <div className="col-md-4">  
+                        <div className="col-12  col-sm-4 col-md-4 col-lg-4">  
                           <div className="card"> 
                           <div className="card-header text-center small">DATA ENTREGA</div>
                             <div className="card-block"><b>05/09/2017</b></div>
@@ -116,7 +115,7 @@ export default  class ProductOwner extends Component{
                           
                         </div>
                         
-                        <div className="col-md-4">
+                        <div className="col-12 col-sm-4 col-md-4">
                           <div className="card">                      
                             <div className="card-block">
                               <div className="content h1 text-center">0</div>
@@ -125,7 +124,7 @@ export default  class ProductOwner extends Component{
                           </div>   
                         </div>
 
-                        <div className="col-md-4">
+                        <div className="col-12 col-sm-4 col-md-4 col-lg-4">
                           <div className="card">                      
                             <div className="card-body">
                               <div className="row">
@@ -148,7 +147,9 @@ export default  class ProductOwner extends Component{
                 </div>
                   <div className="card-footer">
                     <div className="row"> 
-                        <ScrumMaster idProjeto= {projeto.id}/>
+                      <div className="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <ScrumMaster idProjeto= {projeto.id}/>
+                      </div>
                     </div>
                  </div>             
             </div>

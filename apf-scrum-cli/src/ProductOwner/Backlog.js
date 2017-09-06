@@ -70,7 +70,7 @@ export default  class Backlog extends Component{
                         </div>
                         <div className="row">
                         
-                        <table className="table table-hover">
+                        <table className="table table-hover table-responsive">
                             <thead>
                                 <tr>
                                     <th>Prioridade</th>
