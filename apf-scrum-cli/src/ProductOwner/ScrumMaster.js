@@ -48,7 +48,6 @@ export default  class ScrumMaster extends Component{
             body:JSON.stringify({email:this.state.email}),
             headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
         };
-        console.log("dados enviados:"+  requestInfo.body);
 
         fetch("http://scrum-php.herokuapp.com/v1/equipe/scrummaster/"+parseInt(this.props.idProjeto, 10),requestInfo)            
         .then(response =>{

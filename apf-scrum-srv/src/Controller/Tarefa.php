@@ -26,13 +26,14 @@ class Tarefa{
 
     public function criar($request, $response, $args){
         $dados = json_decode($request->getBody(),true); 
-        $email = $this->getEmailToken($request->getHeader('X-token'));    
+        $email = $this->getEmailToken($request->getHeader('X-Token'));    
+      // var_dump($dados['id_projeto']);
         $entityManager = $this->container->get('em');
         $projeto = $entityManager->getRepository('App\Models\Entity\Projeto')
-                                 ->findOneBy(array('id' => $dados['id_projeto']));
+                                 ->find($dados['id_projeto']);
         $usuario = $entityManager->getRepository('App\Models\Entity\Usuario')
                            ->findOneBy(array('email' => $email));
-        if(!$projeto || $usuario){
+        if(!$projeto || !$usuario){
             throw new \Exception("projeto ou usuario incorretos", 400);
         }
        $tarefa = (new Tar())->setNome($dados['nome'])
@@ -50,7 +51,7 @@ class Tarefa{
 
     public function atualizar($request, $response, $args){
         $dados = json_decode($request->getBody(),true); 
-        $idUsuario = $this->getIDToken($request->getHeader('X-token'));
+        $idUsuario = $this->getIDToken($request->getHeader('X-Token'));
         $entityManager = $this->container->get('em');
         $id = (int) $args['id'];
         $tarefa = $entityManager->getRepository(Tar::class)->findOneBy(array("projeto"=>$dados['id_projeto'],"id"=>$id));
@@ -96,15 +97,15 @@ class Tarefa{
     }
     public function listar($request, $response, $args){
         $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
-        $idProjeto = $request->getHeader('id_projeto'); 
+        $idProjeto = $args['id_projeto']; 
         $entityManager = $this->container->get('em');
-        $tarefa = $entityManager->createQuery('select p.id as idProjeto, t. id, t.nome, t.descricao, t.dataCriacao, t.prioridade 
+        $tarefa = $entityManager->createQuery('select p.id as idProjeto, t.id, t.nome, t.descricao, t.dataCriacao, t.prioridade 
                                                 from App\Models\Entity\Tarefa t
                                                 join App\Models\Entity\Projeto p
                                                 with p.id = t.projeto
                                                 join App\Models\Entity\Usuario u
                                                 with u.id = p.usuario
-                                                where u.id = :idUsuario and p.id = :idProjeto');
+                                                where u.id = :idUsuario and p.id = :idProjeto and t.prioridade >0');
         $tarefa->setParameters(array(
         'idUsuario' => $idUsuario,
         'idProjeto' => $idProjeto,
@@ -116,7 +117,21 @@ class Tarefa{
         return $return;   
 
     }
+    public function arquivar($request, $response, $args){
+        $entityManager = $this->container->get('em');
+        $tarefa = $entityManager->getRepository(Tar::class)->find($args['id']);
+        if(!$tarefa){
+            throw new \Exception("tarefa not Found", 404);
+        }
+        $tarefa->setPrioridade(0);
+        $entityManager->persist($tarefa);
+        $entityManager->flush();
+        $return = $response->withJson(array("msg" => "tarefa arquivada com sucesso"), 201)
+                           ->withHeader('Content-type', 'application/json');
+        return $return; 
 
+
+    }
     function getEmailToken($token){
         $key = $this->container->get("secretkey");
         $decoded = JWT::decode($token[0], $key, array('HS256'));

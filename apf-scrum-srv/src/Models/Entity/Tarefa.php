@@ -77,9 +77,6 @@ class Tarefa{
     }
 
     public function setPrioridade($prioridade){
-        if(!$prioridade){
-            throw new \InvalidArgumentException("prioridade requerido", 400);
-        }
         $this->prioridade = $prioridade;
         return $this;
     }

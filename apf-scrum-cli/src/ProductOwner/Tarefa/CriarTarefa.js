@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-
 import PubSub from 'pubsub-js';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { withRouter } from 'react-router-dom';
 
-const User = ({ match }) => {
-    return <h1>Hello {this.match.params}!</h1>
-  }
+
 export default  class CriarTarefa extends Component{
-   
     
     constructor(props) {
         super(props);
@@ -22,13 +17,10 @@ export default  class CriarTarefa extends Component{
                 }
                 
     }
-    componentDidMount() {
-        
-        
-        
-        
-        }
-        
+    componentDidMount() {}
+
+    handleChange = (event, index, prioridade) => this.setState({prioridade});   
+    
     salvaAlteracao(nomeInput,evento){
         var campoSendoAlterado = {};
         campoSendoAlterado[nomeInput] = evento.target.value;    
@@ -37,19 +29,16 @@ export default  class CriarTarefa extends Component{
     
     enviaForm(evento){
         evento.preventDefault();
-        console.log(this.props);
-        
          const requestInfo = {
             method:'POST',
             body:JSON.stringify({ nome:this.state.nome
                                 , descricao: this.state.descricao
-                             //   , id_projeto: this.props.match.params.idprojeto
+                                , id_projeto: parseInt(this.props.idProjeto, 10)
                                 , prioridade: this.state.prioridade
                             }),
             headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
         };
-        
-       /* fetch("http://scrum-php.herokuapp.com/v1/tarefa",requestInfo)            
+        fetch("http://scrum-php.herokuapp.com/v1/tarefa",requestInfo)            
         .then(response =>{
         if(response.status === 200 || response.status === 201 ){
             this.setState({msg:"Tarefa criada com sucesso", cod:response.status});
@@ -71,14 +60,11 @@ export default  class CriarTarefa extends Component{
         }).catch(error => {
             this.setState({msg:error.message});
         });
-        */
+        
     }
     render(){
          return(
-             
             <div>
-                <User/>
-                <h1>projeto: {this.props.match}</h1>
                 <form className="form-inline" onSubmit={this.enviaForm.bind(this)}>
                 <div className="input-group input-group-lg">
                     <input 

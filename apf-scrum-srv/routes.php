@@ -15,11 +15,11 @@ $app->group('/v1', function() {
       $this->delete('/{id:[0-9]+}', '\App\Controller\Projeto:Arquivar');
     });
     $this->group('/tarefa', function() {
-      $this->get('', '\App\Controller\Tarefa:listar');
+      $this->get('/projeto/{id_projeto:[0-9]+}', '\App\Controller\Tarefa:listar');
       $this->get('/{id:[0-9]+}', '\App\Controller\Tarefa:visualizar');
       $this->post('', '\App\Controller\Tarefa:criar');
       $this->put('/{id:[0-9]+}', '\App\Controller\Tarefa:atualizar');
-      $this->delete('/{id:[0-9]+}', '\App\Controller\Tarefa:Arquivar');
+      $this->delete('/{id:[0-9]+}', '\App\Controller\Tarefa:arquivar');
     });
 
     $this->group('/equipe/scrummaster', function() {

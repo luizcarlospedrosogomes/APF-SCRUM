@@ -43,9 +43,9 @@ export default  class CriarProjeto extends Component{
             this.setState({msg:"Entre em contato com o administrador.", cod:response.status});
             throw new Error('erro: '+ response.status+' nao foi possivel criar seu cadastro');
         }
-    }).catch(error => {
-        this.setState({msg:error.message});
-    });
+        }).catch(error => {
+            this.setState({msg:error.message});
+        });
     }
     render(){
          return(

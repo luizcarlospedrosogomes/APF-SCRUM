@@ -1,22 +1,71 @@
 import React, { Component } from 'react';
-
+import PubSub from 'pubsub-js';
 import MenuSuperior from './MenuSuperior';
 import MenuEsquerdo from './MenuEsquerdo';
-import CriarTarefa from './CriarTarefa';
+import CriarTarefa from './Tarefa/CriarTarefa';
+import ExcluirTarefa from './Tarefa/ExcluirTarefa';
+import Editar from './Tarefa/Editar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 export default  class Backlog extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {lista : [], msg: '' };    
+      }
     
+      componentWillMount(){
+        this.preencheLista();
+    
+        PubSub.subscribe('atualizaListaTarefa', function(topico){
+            this.preencheLista();
+          }.bind(this)); 
+          
+          PubSub.subscribe('removerTarefa', function(topico){
+            this.preencheLista();
+          }.bind(this)); 
+    
+        if (localStorage.getItem("token") === null) {
+          this.props.history.push('/');
+        }
+      }
+
+      preencheLista(){ 
+    
+            const requestInfo = {
+                method:'GET',
+                dataType: 'json',
+                headers:{'X-token': localStorage.getItem('token')}
+            };
+    //
+            fetch("http://scrum-php.herokuapp.com/v1/tarefa/projeto/"+parseInt(this.props.match.params.idProjeto), requestInfo)
+            .then(response =>{
+                if(response.status === 200 || response.status === 201){
+                    console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                    return response.json();
+                  }if(response.status === 401){
+                    console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
+                    //this.props.history.push('/logout/representante');
+                  }
+            })
+            .then(tarefas =>{      
+                if(tarefas.length >0)          
+                   this.setState({lista:tarefas});        
+              });
+        }
+
     render(){
          return(
             <div>
+                
                 <MenuSuperior/>    
                 <div className="container-fluid">       
                 <MenuEsquerdo titulo="Backlog"/>
                     <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
                         <div className="row">
-                            <CriarTarefa/>
+                            <CriarTarefa idProjeto={this.props.match.params.idProjeto}/>
                         </div>
                         <div className="row">
+                        
                         <table className="table table-hover">
                             <thead>
                                 <tr>
@@ -30,17 +79,30 @@ export default  class Backlog extends Component{
                                 </tr>
                             </thead>                            
                             <tbody>
-                                <tr>
-                                    <td>Alta</td>
-                                    <td>Criar Sprint Backlog</td>
-                                    <td>Lista o backlog para o Scrum master para que ele defina junto com a equipe 
-                                        quais tarefas serão executadas
-                                    </td>
-                                    <td>140</td>
-                                    <th>NAO</th>
-                                    <td>Editar</td>
-                                    <td>Excluir</td>
-                                </tr>                            
+                            {
+                             this.state.lista.map(function(t){
+                                return (
+                                        <tr key={t.id}>
+                                            <td>{
+                                                t.prioridade === 1 ? "Alta" : "" 
+                                                || t.prioridade === 2 ? "Media" : ""
+                                                || t.prioridade === 3 ? "Media" : ""  }</td>
+                                            <td>{t.nome}</td>
+                                            <td>{t.descricao}</td>
+                                            <td>140</td>
+                                            <td>NAO</td>
+                                            <td>
+                                            <MuiThemeProvider>
+                                                    <Editar nomeTarefa={t.nome} idTarefa={t.id}/>
+                                                </MuiThemeProvider>
+                                            </td>
+                                            <td>
+                                                <MuiThemeProvider>
+                                                    <ExcluirTarefa nomeTarefa={t.nome} idTarefa={t.id}/>
+                                                </MuiThemeProvider>
+                                            </td>
+                                        </tr>  
+                                        )})}                          
                             </tbody>
                             </table>
                         </div>

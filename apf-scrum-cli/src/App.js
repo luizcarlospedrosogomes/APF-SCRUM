@@ -18,16 +18,11 @@ export default  class App extends Component{
            <Router>
             <div>
           
-                <div className="container-fluid">
-        <main className="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-
-          <section className="row text-center placeholders">
-           
-          </section>
-          </main>
-      
-    
-                
+            <div className="container-fluid">
+            <main className="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <section className="row text-center placeholders">
+                </section>
+            </main>
                   <Switch> 
                           <Route  path="/" exact    component={ Login }/>
                           <Route  path="/logout"          component={ Logout }/>
