@@ -4,9 +4,11 @@ $app->group('/v1', function() {
       $this->group('/usuario', function() {
         $this->post('', '\App\Controller\Usuario:cadastrar');
       });
+
       $this->group('/login', function() {
         $this->post('', '\App\Controller\Usuario:checar');
-    });
+      });
+
     $this->group('/projeto', function() {
       $this->get('', '\App\Controller\Projeto:listar');
       $this->get('/{id:[0-9]+}', '\App\Controller\Projeto:visualizar');
@@ -27,4 +29,14 @@ $app->group('/v1', function() {
       $this->get('/{id_projeto:[0-9]+}', '\App\Controller\Equipe:getScrumMaster');
       $this->delete('/{id_projeto:[0-9]+}', '\App\Controller\Equipe:removerScrumMaster');
     });
+
+    $this->group('/scrummaster', function() {
+     $this->get('/projeto', '\App\Controller\ScrumMaster:listar');
+     $this->post('/time', '\App\Controller\Time:criar');
+     $this->get('/time', '\App\Controller\Time:listar');
+     $this->get('/time/{id:[0-9]+}', '\App\Controller\Time:visualizar');
+     $this->post('/time/membro', '\App\Controller\Time:adicionarMembro');
+     //$this->delete('/time/{id:[0-9]+}', '\App\Controller\Time:arquivar');
+    });
+   
 });

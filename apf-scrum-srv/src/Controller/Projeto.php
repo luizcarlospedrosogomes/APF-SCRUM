@@ -31,8 +31,8 @@ class Projeto{
         $entityManager = $this->container->get('em');
         $usuario = $entityManager->getRepository('App\Models\Entity\Usuario')
                                  ->findOneBy(array('email' => $email));
-        if($usuario == NULL){
-            $this->notFound('Houve um problema ao innserir os dados:[EMAIL: ]'.$usuario->email.' [ID :]'.$usuario->id, $response);
+        if(!$usuario){
+           throw new \Exception("usuario não encontrado", 404);
         }
         $projeto = (new Pro())->setNome($dados['nome'])
                               ->setUsuario($usuario); 
@@ -55,8 +55,8 @@ class Projeto{
         //$projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario,"id"=>$id));
         $projeto = $entityManager->getRepository(Pro::class)->findOneBy(array("usuario"=>$idUsuario,"id"=>$id));
         $nome =$dados['nome'];
-        if($projeto == NULL){
-            $this->notFound('projeto nao existe', $response);
+        if(!$projeto){
+            throw new \Exception("projeto não encontrado", 404);
         }
         $projeto->setNome($nome);
         $entityManager->persist($projeto);
@@ -71,10 +71,10 @@ class Projeto{
         $entityManager = $this->container->get('em');
         $id = (int) $args['id'];
         $projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario,"id"=>$id));
-        if($projeto == NULL){
-            $this->notFound('projeto nao existe', $response);
+        if(!$projeto){
+            throw new \Exception("projeto não encontrado", 404);
         }
-        $return = $response->withJson($projeto, 201)
+        $return = $response->withJson($projeto, 200)
         ->withHeader('Content-type', 'application/json');
         return $return;     
     }
@@ -82,8 +82,8 @@ class Projeto{
         $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
         $entityManager = $this->container->get('em');
         $projeto = $entityManager->getRepository(Pro::class)->findBy(array("usuario"=>$idUsuario));
-        if($projeto == NULL){
-            $this->notFound('Não existe projetos para este usuario', $response);
+        if(!$projeto){
+            throw new \Exception("projeto não encontrado", 404);
         }
         $return = $response->withJson($projeto, 201) 
                           ->withHeader('Content-type', 'application/json');

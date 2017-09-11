@@ -14,25 +14,31 @@ class Time{
     public $nome = null;
     /** @Column(type="datetime",  length=20)**/
     public $dataCriacao;
-     /** @Column(type="string",  length=100)**/
-
     /**
      * @ManyToOne(targetEntity="Usuario", cascade={"persist"})
-     * @JoinColumn(name="usuario", referencedColumnName="id")
+     * @JoinColumn(name="scrummaster", referencedColumnName="id")
      */
-    public $membro;
+    public $scrummaster;
 
      public function __construct()
      {
         $this->dataCriacao = new \DateTime();
      }
-
-     public function setMembro($membro){
-        $this->membro = $membro;
+    
+     public function setNome($nome){
+        $this->nome = $nome;
         return $this;
     }
     
-    public function getMembro(){
-        return $this->membro;
+    public function getNome(){
+        return $this->nome;
+    }
+    public function setScrumMaster($scrummaster){
+        $this->scrummaster = $scrummaster;
+        return $this;
+    }
+    
+    public function getScrumMaster(){
+        return $this->scrummaster;
     } 
 }

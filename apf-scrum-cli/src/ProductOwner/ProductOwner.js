@@ -58,7 +58,7 @@ export default  class ProductOwner extends Component{
           <MenuEsquerdo titulo="Projetos"/>
       <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main" key="sjsjsj">
       <div className="row" key="linhaCriarProjeto">
-        <div className="col-sm-12">
+        <div className="col-12 col-sm-12 col-md-12 col-lg-12">
             <div className="card">
               <div className="card-block">
                 <CriarProjeto/>              
