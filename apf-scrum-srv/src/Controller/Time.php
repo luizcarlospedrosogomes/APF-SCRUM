@@ -46,7 +46,7 @@ class Time{
         $dados = json_decode($request->getBody(),true); 
         $idUsuario = $this->getIDToken($request->getHeader('X-token'));       
         $entityManager = $this->container->get('em');
-        $time = $entityManager->createQuery('select t.nome, IDENTITY(m.desenvolvedor) as desenvolvedor
+      /*  $time = $entityManager->createQuery('select t.nome, IDENTITY(m.desenvolvedor) as desenvolvedor
                                             from App\Models\Entity\Time t
                                             left join App\Models\Entity\MembroTime m
                                             with t.id = m.time
@@ -54,10 +54,12 @@ class Time{
         $time->setParameters(array(
             'idUsuario' => $idUsuario
         ));
-        if(!$time->getResult()){
+        */
+        $time = $entityManager->getRepository(Team::class)->findBy(array("scrummaster"=>$idUsuario));
+        if(!$time){
             throw new \Exception("nenhum time encontrado", 404);
         }
-        $return = $response->withJson($time->getResult(), 200)
+        $return = $response->withJson($time, 200)
                            ->withHeader('Content-type', 'application/json');
         return $return;     
     }
@@ -67,7 +69,7 @@ class Time{
         $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
         $id = (int) $args['id'];      
         $entityManager = $this->container->get('em');
-        $time = $entityManager->createQuery('select t.nome, IDENTITY(m.desenvolvedor) as IDDesenvolvedor, u.email
+        /*$time = $entityManager->createQuery('select t.nome, IDENTITY(m.desenvolvedor) as IDDesenvolvedor, u.email
                                             from App\Models\Entity\Time t
                                             left join App\Models\Entity\MembroTime m
                                             with t.id = m.time
@@ -79,10 +81,12 @@ class Time{
             'idUsuario' => $idUsuario,
             'idTime' => $id
         ));
-        if(!$time->getResult()){
+        */
+        $time = $entityManager->getRepository(Team::class)->find($id);
+        if(!$time){
             throw new \Exception("nenhum time encontrado", 404);
         }
-        $return = $response->withJson($time->getResult(), 200)
+        $return = $response->withJson($time, 200)
                            ->withHeader('Content-type', 'application/json');
         return $return;     
     }
@@ -97,7 +101,7 @@ class Time{
             throw new \Exception("nenhum desenvolvedor encontrado", 404);
         }
         $time =  $entityManager->getRepository('App\Models\Entity\Time')
-                                ->findOneBy(array('scrummaster' =>$idUsuario));
+                                ->find($dados['id_time']);
         if(!$time){
             throw new \Exception("nenhum time encontrado", 404);
         } 
@@ -106,6 +110,65 @@ class Time{
         $entityManager->persist($membroEquipe);
         $entityManager->flush();
         $return = $response->withJson($membroEquipe, 200)
+                           ->withHeader('Content-type', 'application/json');
+        return $return;     
+    }
+
+    public function listarMembro($request, $response, $args){
+        $dados = json_decode($request->getBody(),true); 
+        $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
+        $idTime = (int) $args['id_time'];      
+        $entityManager = $this->container->get('em');
+        $membroTime = $entityManager->createQuery('select m.id as idMembro, IDENTITY(m.desenvolvedor) as IDDesenvolvedor, u.email
+                                            from App\Models\Entity\MembroTime m
+                                            left join App\Models\Entity\Usuario u
+                                            with m.desenvolvedor = u.id
+                                            where m.time = :idTime
+                                          ');
+        $membroTime->setParameters(array(
+            'idTime' => $idTime
+        ));
+        
+        if(!$membroTime->getResult()){
+            throw new \Exception("não existem desenvolvedores no time", 404);
+        }
+        $return = $response->withJson($membroTime->getResult(), 200)
+                           ->withHeader('Content-type', 'application/json');
+        return $return;     
+    }
+
+    public function excluirMembro($request, $response, $args){
+        $idMembro = (int) $args['id_membro']; 
+        $idUsuario = $this->getIDToken($request->getHeader('X-token'));
+        $entityManager = $this->container->get('em');
+        $membro =  $entityManager->getRepository('App\Models\Entity\MembroTime')
+                                        ->find($idMembro);
+        if(!$membro){
+            throw new \Exception("nenhum desenvolvedor encontrado", 404);
+        }
+        
+        $entityManager->remove($membro);
+        $entityManager->flush();
+        $return = $response->withJson(200)
+                           ->withHeader('Content-type', 'application/json');
+        return $return;     
+    }
+    
+    public function removerTimeProjeto($request, $response, $args){
+        $idTime = (int) $args['id_time']; 
+        $dados = json_decode($request->getBody(),true); 
+        $idUsuario = $this->getIDToken($request->getHeader('X-token'));
+        $entityManager = $this->container->get('em');
+        $equipe =  $entityManager->getRepository('App\Models\Entity\Equipe')
+                                        ->findOneBy(array('time'=> $idTime, 'projeto' => $dados['id_projeto']));
+        
+        if(!$equipe){
+            throw new \Exception("Não existem times para este projeto", 404);
+        }
+        $equipe->setTime(NULL);
+        $entityManager->persist($equipe);
+        $entityManager->flush();
+        $return = $response->withJson(200)
                            ->withHeader('Content-type', 'application/json');
         return $return;     
     }

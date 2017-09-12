@@ -45,6 +45,7 @@ class Equipe{
         $this->nome = "equipe";
        // $this->scrumMaster = new ArrayCollection();
        // $this->productOwner = new ArrayCollection();
+       //$this->time = new ArrayCollection();
      }
 
      public function setScrumMaster($scrumMaster){
@@ -61,6 +62,13 @@ class Equipe{
     } 
     public function setProductOwner($productOwner){
         $this->productOwner = $productOwner;
+        return $this;
+    }
+    public function getTime(){
+        return $this->time;
+    } 
+    public function setTime($time){
+        $this->time = $time;
         return $this;
     }
     

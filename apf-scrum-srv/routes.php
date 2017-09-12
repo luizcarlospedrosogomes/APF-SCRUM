@@ -31,11 +31,15 @@ $app->group('/v1', function() {
     });
 
     $this->group('/scrummaster', function() {
-     $this->get('/projeto', '\App\Controller\ScrumMaster:listar');
+     $this->get('/projeto', '\App\Controller\ScrumMaster:listarProjeto');
+     $this->post('/projeto/time', '\App\Controller\ScrumMaster:associarTimeAProjeto');
      $this->post('/time', '\App\Controller\Time:criar');
      $this->get('/time', '\App\Controller\Time:listar');
+     $this->delete('/time/{id_time:[0-9]+}', '\App\Controller\Time:removerTimeProjeto');
      $this->get('/time/{id:[0-9]+}', '\App\Controller\Time:visualizar');
      $this->post('/time/membro', '\App\Controller\Time:adicionarMembro');
+     $this->get('/time/membro/{id_time:[0-9]+}', '\App\Controller\Time:listarMembro');
+     $this->delete('/time/membro/{id_membro:[0-9]+}', '\App\Controller\Time:excluirMembro');
      //$this->delete('/time/{id:[0-9]+}', '\App\Controller\Time:arquivar');
     });
    

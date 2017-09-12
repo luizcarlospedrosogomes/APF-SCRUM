@@ -8,6 +8,7 @@ import Backlog       from './ProductOwner/Backlog';
 import Desenvolvedor from './Desenvolvedor/Desenvolvedor';
 import Login         from './Login/Login';
 import Logout         from './Login/Logout';
+import Time         from './ScrumMaster/Time/Time';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -24,12 +25,13 @@ export default  class App extends Component{
                 </section>
             </main>
                   <Switch> 
-                          <Route  path="/" exact    component={ Login }/>
-                          <Route  path="/logout"          component={ Logout }/>
-                          <Route  path="/productOwner"          component={ ProductOwner }/>
-                          <Route  path="/backlog/:idProjeto"               component={ Backlog }/>
-                          <Route  path="/scrumMaster"           component={ ScrumMaster }/>
-                          <Route  path="/desenvolvedor"         component={ Desenvolvedor }/>
+                          <Route  path="/" exact            component={ Login }/>
+                          <Route  path="/logout"            component={ Logout }/>
+                          <Route  path="/productOwner"      component={ ProductOwner }/>
+                          <Route  path="/backlog/:idProjeto" component={ Backlog }/>
+                          <Route  path="/scrumMaster"        component={ ScrumMaster }/>
+                          <Route  path="/time"   component={ Time }/>
+                          <Route  path="/desenvolvedor"      component={ Desenvolvedor }/>
                   </Switch> 
               </div>
               
