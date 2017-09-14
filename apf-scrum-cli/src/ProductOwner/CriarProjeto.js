@@ -18,7 +18,7 @@ export default  class CriarProjeto extends Component{
      enviaForm(evento){
         evento.preventDefault();
         console.log(localStorage.getItem('token'))
-         const requestInfo = {
+        const requestInfo = {
             method:'POST',
             body:JSON.stringify({ nome:this.state.nome}),
             headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})

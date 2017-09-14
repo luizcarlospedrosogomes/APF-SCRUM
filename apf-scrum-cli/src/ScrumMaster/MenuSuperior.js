@@ -11,6 +11,7 @@ export default  class MenuSuperior extends Component{
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <Link to="/scrumMaster" className="navbar-brand">{this.props.tipoUsuario}</Link>            
+                    <div  className="navbar-brand">>>{this.props.titulo}</div>  
                     <div className="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul className="navbar-nav mr-auto"></ul>
                     

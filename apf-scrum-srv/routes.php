@@ -40,7 +40,17 @@ $app->group('/v1', function() {
      $this->post('/time/membro', '\App\Controller\Time:adicionarMembro');
      $this->get('/time/membro/{id_time:[0-9]+}', '\App\Controller\Time:listarMembro');
      $this->delete('/time/membro/{id_membro:[0-9]+}', '\App\Controller\Time:excluirMembro');
-     //$this->delete('/time/{id:[0-9]+}', '\App\Controller\Time:arquivar');
+     $this->post('/sprint', '\App\Controller\Time:criar');
+     $this->post('/sprint/{id_projeto:[0-9]+}', '\App\Controller\Sprint:criar');
+     $this->put('/sprint/{id:[0-9]+}', '\App\Controller\Time:criar');
+     $this->delete('/sprint/{id:[0-9]+}', '\App\Controller\Time:criar');
+     $this->post('/sprint/tarefa', '\App\Controller\Time:criar');
+     $this->post('/sprint/tarefa/{id:[0-9]+}', '\App\Controller\Time:criar');
+     $this->put('/sprint/tarefa/{id:[0-9]+}', '\App\Controller\Time:criar');
+     $this->get('/backlog/{id_projeto:[0-9]+}', '\App\Controller\Tarefa:Listar');
+     $this->get('/sprint/backlog/{id_sprint:[0-9]+}', '\App\Controller\SprintBacklog:Listar');
+     $this->delete('/sprint/tarefa/{id:[0-9]+}', '\App\Controller\Time:criar');
+     
     });
    
 });

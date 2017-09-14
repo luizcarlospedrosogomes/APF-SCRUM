@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class MembroTime{
     /** @id @Column(type="integer") @GeneratedValue(strategy="AUTO")**/
     public $id;
-    /** @Column(type="datetime",  length=100)**/
+    /** @Column(type="datetime",  length=20)**/
     public $dataCriacao;
 
     /**
@@ -28,7 +28,7 @@ class MembroTime{
     public function __construct()
      {
         $this->dataCriacao = new \DateTime();
-        $this->desenvolvedor = new \Doctrine\Common\Collections\ArrayCollection();
+        //$this->desenvolvedor = new \Doctrine\Common\Collections\ArrayCollection();
      }
 
     public function setDesenvolvedor($desenvolvedor){

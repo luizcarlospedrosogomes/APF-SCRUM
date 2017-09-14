@@ -8,12 +8,15 @@ import MenuSuperior from './MenuSuperior';
 import MenuEsquerdo from './MenuEsquerdo';
 import AdicionarTime from './AdicionarTime';
 import BuscarTime from './BuscarTime';
+import AdiconarSprint from './Sprint/AdicionarSprint';
+
 export default  class ScrumMaster extends Component{
     constructor(props) {
         super(props);
         this.state = {lista : [], msg: '' };    
       }
     
+        
       componentWillMount(){
         this.preencheLista();
     
@@ -27,7 +30,13 @@ export default  class ScrumMaster extends Component{
         PubSub.subscribe('associarTime', function(topico){
             this.preencheLista();
         }.bind(this)); 
-                     
+        
+        PubSub.subscribe('AdicionarSprint', function(topico, sprint){
+            console.log(sprint)
+            this.props.history.push('/scrummaster/sprint/'+sprint);
+        }.bind(this)); 
+        
+        
         if (localStorage.getItem("token") === null) {
           this.props.history.push('/');
         }
@@ -66,7 +75,7 @@ export default  class ScrumMaster extends Component{
                 { this.state.lista.map(function(projeto){
                          return (
                             
-                            <div className="col-md-4">             
+                            <div className="col-md-4" key={projeto.idProjeto}>             
                                 <MuiThemeProvider>
                                     <Card>
                                          <CardHeader
@@ -104,8 +113,13 @@ export default  class ScrumMaster extends Component{
                                                 </div>
                                             </div> 
                                             <div className="col-12 col-sm-6 col-md-6 col-lg-6" >                            
-                                                <div className="card" >                      
-                                                    <div className="card-footer text-center">Adicionar Sprint</div>             
+                                                <div className="" >                      
+                                                    <div className="">
+                                                        <AdiconarSprint 
+                                                            nomeProjeto={projeto.nome}
+                                                            idProjeto = {projeto.idProjeto}
+                                                            />
+                                                    </div>             
                                                 </div>
                                             </div>   
                                         </div>
