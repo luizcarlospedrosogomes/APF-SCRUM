@@ -19,7 +19,6 @@ export default  class ExcluirTarefa extends Component{
             method:'DELETE',
             headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
         };
-        //http://scrum-php.herokuapp.com
         fetch("http://scrum-php.herokuapp.com/v1/tarefa/"+parseInt(this.props.idTarefa, 10),requestInfo)            
         .then(response =>{
         if(response.status === 200 || response.status === 201 ){
@@ -29,15 +28,10 @@ export default  class ExcluirTarefa extends Component{
         }
         if(response.status === 400 || response.status === 404){
           this.setState({msg:"Verefique os campos."});
-          throw new Error('Verifique os campos');
         }
         if(response.status === 401){
             this.props.history.push('/');
           }
-        else{
-            this.setState({msg:"Entre em contato com o administrador.", cod:response.status});
-            throw new Error('erro: '+ response.status+' nao foi possivel criar seu cadastro');
-        }
     });
         this.setState({open: false});
       };
@@ -70,7 +64,8 @@ export default  class ExcluirTarefa extends Component{
               open={this.state.open}
               onRequestClose={this.handleClose}
             >
-              Arquivar tarefa: {this.props.nomeTarefa} [id: {this.props.idTarefa}]?
+              <p>{this.state.msg}</p>
+              <h4>Arquivar tarefa: {this.props.nomeTarefa} [id: {this.props.idTarefa}]?</h4>
             </Dialog>
             
           </div>

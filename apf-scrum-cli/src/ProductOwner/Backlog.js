@@ -86,7 +86,7 @@ export default  class Backlog extends Component{
                             {
                              this.state.lista.map(function(t){
                                 return (
-                                        <tr key={t.id}>
+                                        <tr key={t.IDTarefa}>
                                             <td>{
                                                 t.prioridade === 1 ? "Alta" : "" 
                                                 || t.prioridade === 2 ? "Media" : ""
@@ -97,12 +97,12 @@ export default  class Backlog extends Component{
                                             <td>NAO</td>
                                             <td>
                                             <MuiThemeProvider>
-                                                    <Editar nomeTarefa={t.nome} idTarefa={t.id}/>
+                                                    <Editar nomeTarefa={t.nome} idTarefa={t.IDTarefa}/>
                                                 </MuiThemeProvider>
                                             </td>
                                             <td>
                                                 <MuiThemeProvider>
-                                                    <ExcluirTarefa nomeTarefa={t.nome} idTarefa={t.id}/>
+                                                    <ExcluirTarefa nomeTarefa={t.nome} idTarefa={t.IDTarefa}/>
                                                 </MuiThemeProvider>
                                             </td>
                                         </tr>  
