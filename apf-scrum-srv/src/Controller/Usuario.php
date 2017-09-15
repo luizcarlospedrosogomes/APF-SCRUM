@@ -41,7 +41,7 @@ class Usuario{
         $entityManager->persist($usuario);
         $entityManager->flush();
         $return = $response->withJson($usuario, 201)
-        ->withHeader('Content-type', 'application/json');
+                           ->withHeader('Content-type', 'application/json');
         return $return;  
     }
 

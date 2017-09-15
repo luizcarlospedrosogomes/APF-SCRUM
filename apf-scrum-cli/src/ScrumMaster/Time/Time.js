@@ -8,7 +8,9 @@ import MenuEsquerdo from '../MenuEsquerdo';
 import CriarTime from './CriarTime';
 import MembroTime from './ListarMembroTime';
 import AdicionarMembro from './AdicionarMembro';
+
 export default  class Time extends Component{
+
     constructor(props) {
         super(props);
         this.state = {lista : [], msg: '' };    
@@ -16,7 +18,6 @@ export default  class Time extends Component{
     
       componentWillMount(){
         this.preencheLista();
-    
         PubSub.subscribe('atualizaListaTime', function(topico){
             this.preencheLista();
           }.bind(this)); 

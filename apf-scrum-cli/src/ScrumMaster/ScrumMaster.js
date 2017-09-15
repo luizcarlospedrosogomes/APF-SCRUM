@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';    
+  
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {Link} from 'react-router-dom';
 
 import MenuSuperior from './MenuSuperior';
 import MenuEsquerdo from './MenuEsquerdo';
 import AdicionarTime from './AdicionarTime';
 import BuscarTime from './BuscarTime';
 import AdiconarSprint from './Sprint/AdicionarSprint';
+import ContarSprints from './Sprint/ContarSprints';
 
 export default  class ScrumMaster extends Component{
     constructor(props) {
         super(props);
         this.state = {lista : [], msg: '' };    
-      }
-    
-        
+      }  
       componentWillMount(){
         this.preencheLista();
     
@@ -96,11 +96,17 @@ export default  class ScrumMaster extends Component{
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6 col-md-6 col-lg-6" >                            
-                                                <div className="card" >                      
-                                                    <div className="card-block" >
-                                                    <div className="content h1" >100%</div>
-                                                    </div>
-                                                    <div className="card-footer text-center small bg-danger text-white">CONCLUIDO</div>             
+                                                <div className="card" >  
+                                                    <Link to={"/sprint/projeto/"+projeto.idProjeto}>                    
+                                                        <div className="card-block" >
+                                                            <div className="content h1 text-center">
+                                                            <ContarSprints IDProjeto={projeto.idProjeto}/>
+                                                            </div>
+                                                        </div>
+                                                        <div className="card-footer text-center bg-info text-white">
+                                                            Sprints
+                                                        </div>    
+                                                    </Link>         
                                                 </div>
                                             </div>
                                         </div>

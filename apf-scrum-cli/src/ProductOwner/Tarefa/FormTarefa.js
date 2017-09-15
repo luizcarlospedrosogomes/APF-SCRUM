@@ -35,7 +35,7 @@ export default  class FormTarefa extends Component{
                            }),
            headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
        };
-       fetch("http://scrum-php.herokuapp.com/v1/tarefa/"+parseInt(this.props.idTarefa),requestInfo)            
+       fetch("http://scrum-php.herokuapp.com/v1/tarefa/"+parseInt(this.props.idTarefa, 10),requestInfo)            
        .then(response =>{
        if(response.status === 200 || response.status === 201 ){
            this.setState({msg:"Tarefa criada com sucesso", cod:response.status});
@@ -66,7 +66,7 @@ export default  class FormTarefa extends Component{
           headers:{'X-token': localStorage.getItem('token')}
           };
     //
-          fetch("http://scrum-php.herokuapp.com/v1/tarefa/"+parseInt(this.props.idTarefa), requestInfo)
+          fetch("http://scrum-php.herokuapp.com/v1/tarefa/"+parseInt(this.props.idTarefa, 10), requestInfo)
           .then(response =>{
               if(response.status === 200 || response.status === 201){
                   console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");

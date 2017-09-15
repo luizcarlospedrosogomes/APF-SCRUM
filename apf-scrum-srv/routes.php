@@ -30,7 +30,29 @@ $app->group('/v1', function() {
       $this->delete('/{id_projeto:[0-9]+}', '\App\Controller\Equipe:removerScrumMaster');
     });
 
-    $this->group('/scrummaster', function() {
+    $this->group('/scrummaster/projeto', function() {
+      $this->get('', '\App\Controller\ScrumMaster:listarProjeto');
+      $this->post('/time', '\App\Controller\ScrumMaster:associarTimeAProjeto');
+     });
+
+     $this->group('/scrummaster/time', function() {
+        $this->post('', '\App\Controller\Time:criar');
+        $this->get('', '\App\Controller\Time:listar');
+        $this->delete('/{id_time:[0-9]+}', '\App\Controller\Time:removerTimeProjeto');
+        $this->get('/{id:[0-9]+}', '\App\Controller\Time:visualizar');
+        $this->get('/membro/{id_time:[0-9]+}', '\App\Controller\Time:listarMembro');
+        $this->delete('/membro/{id_membro:[0-9]+}', '\App\Controller\Time:excluirMembro');
+     });
+
+     $this->group('/scrummaster/sprint', function() {
+        $this->post('/{id_projeto:[0-9]+}', '\App\Controller\Sprint:criar');
+     //   $this->get('/backlog/{id_projeto:[0-9]+}', '\App\Controller\Tarefa:Listar');
+        $this->get('/projeto/{id_projeto:[0-9]+}', '\App\Controller\Sprint:Listar');
+        $this->get('/backlog/{id_sprint:[0-9]+}', '\App\Controller\SprintBacklog:Listar');     
+        $this->get('/contar/{id_projeto:[0-9]+}', '\App\Controller\Sprint:contarSprint');
+        $this->get('/item/{id_sprint_backlog:[0-9]+}', '\App\Controller\Sprint:getTarefa');
+      });
+    /*$this->group('/scrummaster', function() {
      $this->get('/projeto', '\App\Controller\ScrumMaster:listarProjeto');
      $this->post('/projeto/time', '\App\Controller\ScrumMaster:associarTimeAProjeto');
      $this->post('/time', '\App\Controller\Time:criar');
@@ -52,5 +74,5 @@ $app->group('/v1', function() {
      $this->delete('/sprint/tarefa/{id:[0-9]+}', '\App\Controller\Time:criar');
      
     });
-   
+   */
 });

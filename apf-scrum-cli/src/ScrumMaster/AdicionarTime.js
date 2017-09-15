@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PubSub from 'pubsub-js';
 
 export default  class AdicionarTime extends Component{

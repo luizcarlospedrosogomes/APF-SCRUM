@@ -41,7 +41,7 @@ export default  class ScrumMaster extends Component{
      enviaForm(evento){
         evento.preventDefault();
         var OP;
-        {this.state.vinculado === 'SIM' ? OP = 'DELETE' : OP = 'POST'}
+        {this.state.vinculado == 'SIM' ? OP = 'DELETE' : OP = 'POST'}
         
          const requestInfo = {
             method:OP,

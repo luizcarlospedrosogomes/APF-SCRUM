@@ -18,8 +18,6 @@ class Tarefa{
     public $descricao;
     /** @Column(type="integer")**/
     public $prioridade;
-        
-    // ...
 
     /**
      * @ManyToOne(targetEntity="Projeto", cascade={"persist"})

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+
 import Checkbox from 'material-ui/Checkbox';
 import PubSub from 'pubsub-js';
 
@@ -104,7 +104,7 @@ export default  class AdicionarSprint extends Component{
       
          return(
             <div className="col-12 col-md-10 col-lg-10">
-                <RaisedButton label="Sprint" onClick={this.handleOpen} />
+                <RaisedButton label="ADDSprint" onClick={this.handleOpen} />
             <Dialog
               title={"Backlog do projeto: "+this.props.nomeProjeto}
               actions={actions}

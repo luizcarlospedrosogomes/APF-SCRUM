@@ -10,7 +10,7 @@ import Login         from './Login/Login';
 import Logout         from './Login/Logout';
 import Time           from './ScrumMaster/Time/Time';
 import SprintBacklog from './ScrumMaster/Sprint/SprintBacklog';
-import AdicionarSprint from './ScrumMaster/Sprint/AdicionarSprint';
+import ListarSprintProjeto from './ScrumMaster/Sprint/ListarSprintProjeto';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -31,7 +31,8 @@ export default  class App extends Component{
                           <Route  path="/logout"            component={ Logout }/>
                           <Route  path="/productOwner"      component={ ProductOwner }/>
                           <Route  path="/backlog/:idProjeto" component={ Backlog }/>
-                          <Route  path="/scrummaster/sprint/:idSprint" component={ SprintBacklog }/>
+                          <Route  path="/sprint/projeto/:IDProjeto" component={ ListarSprintProjeto }/>
+                          <Route  path="/scrummaster/sprint/:IDSprint" component={ SprintBacklog }/>
                           <Route  path="/scrumMaster"        component={ ScrumMaster }/>
                           <Route  path="/time"   component={ Time }/>
                           <Route  path="/desenvolvedor"      component={ Desenvolvedor }/>

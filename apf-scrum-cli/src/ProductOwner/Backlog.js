@@ -41,7 +41,7 @@ export default  class Backlog extends Component{
                 headers:{'X-token': localStorage.getItem('token')}
             };
     //
-            fetch("http://scrum-php.herokuapp.com/v1/tarefa/projeto/"+parseInt(this.props.match.params.idProjeto), requestInfo)
+            fetch("http://scrum-php.herokuapp.com/v1/tarefa/projeto/"+parseInt(this.props.match.params.idProjeto,10), requestInfo)
             .then(response =>{
                 if(response.status === 200 || response.status === 201){
                     console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");

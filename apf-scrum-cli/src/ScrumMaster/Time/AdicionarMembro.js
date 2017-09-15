@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+
 import PubSub from 'pubsub-js';
 
 export default  class AdicionarMembro extends Component{
@@ -26,7 +26,7 @@ export default  class AdicionarMembro extends Component{
       };
       
       handlAdicionarMembro = (evento) => {
-        if(this.state.email ==''){
+        if(this.state.email ===''){
             this.setState({msg:'Email obrigatorio'})
             return
         }
@@ -55,7 +55,7 @@ export default  class AdicionarMembro extends Component{
                 this.props.history.push('/');
               }
         })
-        this.handleClose; 
+        //this.handleClose; 
       };
 
       handleCancelar = () => {

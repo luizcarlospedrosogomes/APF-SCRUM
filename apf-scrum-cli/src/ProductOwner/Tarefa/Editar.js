@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import PubSub from 'pubsub-js';
 
 import FormTarefa from './FormTarefa';
@@ -12,7 +11,7 @@ export default  class Editar extends Component{
         open: false,msg:''
       };
       componentWillMount(){
-        var tarefaAtualizada = PubSub.subscribe('tarefaAtualizada', function(topico, status){
+        PubSub.subscribe('tarefaAtualizada', function(topico, status){
           if(status ===201){
             this.setState({open: false});
           }else{
@@ -33,7 +32,7 @@ export default  class Editar extends Component{
       };
       handleAtualizarTarefa = () => {
         PubSub.publish("atualizarTarefa"); 
-        this.handleClose; 
+        //this.handleClose; 
       };
 
       handleCancelar = () => {

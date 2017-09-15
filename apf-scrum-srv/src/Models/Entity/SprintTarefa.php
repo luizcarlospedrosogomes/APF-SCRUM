@@ -13,23 +13,48 @@ class SprintTarefa{
     /** @Column(type="datetime",  length=20)**/
     public $dataCriacao;
     /**
-     * @ManyToOne(targetEntity="Sprint", cascade={"persist"})
-     * @JoinColumn(name="sprint", referencedColumnName="id")
+     * @ManyToOne(targetEntity="SprintBacklog", cascade={"persist"})
+     * @JoinColumn(name="sprintBacklog", referencedColumnName="id")
      */
-     public $sprint = null;
-    
+     public $sprintBacklog = null;
+     /**
+     * @ManyToOne(targetEntity="Usuario", cascade={"persist"})
+     * @JoinColumn(name="desenvolvedor", referencedColumnName="id")
+     */
+     public $desenvolvedor = null;
+
+     /** @Column(type="string",  length=20)**/
+     public $nome;
+
      public function __construct()
      {
         $this->dataCriacao = new \DateTime();
      }
 
-     public function setSprint($sprint){
-        $this->sprint = $sprint;
+    public function setSprintBacklog($sprintBacklog){
+        $this->sprintBacklog = $sprintBacklog;
         return $this;
     }
     
-    public function getSprint(){
-        return $this->sprint;
+    public function getSprintBacklog(){
+        return $this->sprintBacklog;
     } 
 
+    public function setDesenvolvedor($desenvolvedor){
+        $this->desenvolvedor = $desenvolvedor;
+        return $this;
+    }
+    
+    public function getDesenvolvedor(){
+        return $this->desenvolvedor;
+    } 
+
+    public function setNome($nome){
+        $this->nome = $nome;
+        return $this;
+    }
+    
+    public function getNome(){
+        return $this->nome;
+    } 
 }

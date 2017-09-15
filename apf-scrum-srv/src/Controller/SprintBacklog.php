@@ -30,18 +30,26 @@ class SprintBacklog{
         $IDSprint = (int) $args['id_sprint'];
       
         $sprintBacklog= $this->getItensSprintBacklog($entityManager, $this->getTipoUsuario($entityManager,$IDUsuario), $IDUsuario, $IDSprint);
+
         $return = $response->withJson($sprintBacklog->getResult(), 200) 
                            ->withHeader('Content-type', 'application/json');
         return $return; 
     }
 
+    public function getTarefas($request, $response, $args){
+        $dados = json_decode($request->getBody(),true); 
+        $IDUsuario = $this->getIDToken($request->getHeader('X-token'));       
+        $entityManager = $this->container->get('em');
+    }
+    
     function getItensSprintBacklog($entityManager, $tipoUsuario, $IDUsuario, $IDSprint){
         
         $sql ='select sb.id as IDSprintBacklog
                     , t.id as IDTarefa
                     , s.id as IDSprint
                     , t.nome as nomeItemBacklog
-                    ,  p.nome as nomeProjeto        
+                    ,  p.nome as nomeProjeto
+                    ,  t.descricao     
         from App\Models\Entity\SprintBacklog sb
         join App\Models\Entity\Tarefa t
         with t.id = sb.item_backlog
@@ -72,6 +80,7 @@ class SprintBacklog{
         return $query; 
     }
 
+   
     function getTipoUsuario($entityManager, $IDUsuario){
         $usuario = $entityManager->getRepository('App\Models\Entity\Usuario')
                                  ->find($IDUsuario);
