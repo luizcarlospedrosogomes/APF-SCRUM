@@ -59,13 +59,9 @@ $app->group('/v1', function() {
       });
 
       $this->group('/scrummaster/contagem', function() {
-        $this->post('/ALI/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
-        $this->post('/AIE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
-        $this->post('/EE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
-        $this->post('/CE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
-        $this->post('/SE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->post('/{tipoContagem}/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
         $this->get('/{tipoContagem}/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:listar');
-        $this->get('/complexidade', '\App\Controller\TipoContagem:complexidade');
+        $this->delete('/{tipoContagem}/{id_contagem:[0-9]+}', '\App\Controller\TipoContagem:excluir');
       });
 
     /*$this->group('/scrummaster', function() {

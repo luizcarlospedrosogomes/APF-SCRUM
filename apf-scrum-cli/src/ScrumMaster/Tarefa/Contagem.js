@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
 
 import MenuSuperior from '../MenuSuperior';
 import MenuEsquerdo from '../MenuEsquerdo';
-
 import TipoContagem from './TipoContagem';
 
 export default  class Contagem extends Component{
@@ -13,8 +13,9 @@ export default  class Contagem extends Component{
     }  
     
     componentWillMount(){
-        console.log(this.props.match.params.IDSprintBacklog)
+      
     }
+
     enviarForm(evento){
         evento.preventDefault();
         console.log(this.state.tipoContagem)
@@ -43,6 +44,7 @@ export default  class Contagem extends Component{
         .then(response =>{
             if(response.status === 200 ||  response.status === 201){
                 this.setState({cod:response.status, status:""});
+                PubSub.publish("CriarContagem");
                 return response.json();
             }
             if(response.status === 404 ){

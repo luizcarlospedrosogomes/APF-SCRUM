@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import PubSub from 'pubsub-js';
+import RemoverContagem from './RemoverContagem';
+
 
 export default  class TipoContagem extends Component{
     constructor(props) {
@@ -8,6 +13,12 @@ export default  class TipoContagem extends Component{
     
     componentWillMount(){
         this.getContagem();
+        PubSub.subscribe('removerContagem', function(topico){
+            this.getContagem();
+        }.bind(this)); 
+        PubSub.subscribe('CriarContagem', function(topico){
+            this.getContagem();
+        }.bind(this)); 
     }
 
     getContagem(){
@@ -34,33 +45,43 @@ export default  class TipoContagem extends Component{
     
     render(){
      
-        if(this.state.lista ===''){
+        if(this.state.lista ==''){
             return(<div></div>);
         }else{
 
          return(
-            
+            <MuiThemeProvider>
             <div className="col-md-4 no-gutters">
                 <div className="card col-md-11 no-gutters">
                     <div className="card-block col-md-3 no-gutters">
                             <h5 className="text-center">{this.props.tipoContagem}</h5>
-                            <table className="table col-4">
+                            <table className="table col-4 no-gutters">
                                 <thead>
-                                <tr>
+                                <tr className="no-gutters">
                                     <th>TR</th>
                                     <th>TD</th>
-                                    <th>Complexidade</th>
+                                    <th>Complex</th>
                                     <th>X</th>
-                                    
+                                    <th><ActionDelete/></th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="no-gutters">
                                     {this.state.lista.map((ponto, index) =>
                                         <tr key={index}>
-                                            <td>{ponto.tr}</td>
-                                            <td>{ponto.td}</td>
-                                            <td>{ponto[0].complexidade}</td>
-                                            <td>X{ponto[0].ponto}</td>
+                                            <td className="no-gutters">{ponto.tr}</td>
+                                            <td className="no-gutters">{ponto.td}</td>
+                                            <td className="no-gutters">{ponto[0].complexidade}</td>
+                                            <td className="no-gutters"> X{ponto[0].ponto}</td>
+                                            <td className="no-gutters">
+                                                <RemoverContagem
+                                                    IDContagem = {ponto.id}
+                                                    TRContagem = {ponto.tr}
+                                                    TDContagem = {ponto.td}
+                                                    Complexidade = {ponto[0].complexidade}
+                                                    ponto = {ponto[0].ponto}
+                                                    tipoContagem = {this.props.tipoContagem}
+                                                />
+                                            </td>
                                         </tr>
                                       )}
 
@@ -74,6 +95,7 @@ export default  class TipoContagem extends Component{
                     </div>
                     <br/>
               </div>
+              </MuiThemeProvider>
            );
         }
     }
