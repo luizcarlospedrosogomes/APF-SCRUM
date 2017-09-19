@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PubSub from 'pubsub-js';
 
 import MenuSuperior from '../MenuSuperior';
+import MenuEsquerdo from '../MenuEsquerdo';
 import ListarTarefasItemSprintBacklog from './ListarTarefasItemSprintBacklog';
 import CriarTarefa from '../Tarefa/CriarTarefa';
 
@@ -14,6 +15,10 @@ export default  class SprintBacklog extends Component{
         this.state = { expanded: false, ItensSprintBacklog:[]};
       }
     componentWillMount(){
+        PubSub.subscribe('atualizaListaTarefa', function(topico, tarefa){
+            
+            this.props.history.push('/scrummaster/contagem/'+tarefa);
+        }.bind(this)); 
         this.getItensSprintBacklog();
     } 
 
@@ -59,7 +64,8 @@ export default  class SprintBacklog extends Component{
             <div>
                 
                 <MenuSuperior tipoUsuario="Scrum Master" titulo="Sprint Backlog"/>
-                <div className="container-fluid">       
+                <div className="container-fluid">    
+                        <MenuEsquerdo titulo="Sprint Backlog"/>
                     <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main">
                             <div className="row">
                                 <div className="col-12 col-md-12 col-lg-12">
@@ -112,7 +118,7 @@ export default  class SprintBacklog extends Component{
                                                     
                                                     <div className="col">
                                                         <div className="float-right">
-                                                            <CriarTarefa/>
+                                                            <CriarTarefa IDSprintBacklog={itens.IDSprintBacklog}/>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -22,7 +22,7 @@ export default  class AdicionarSprint extends Component{
             dataType: 'json',
             headers: new Headers({'X-token': localStorage.getItem('token')})
         };
-        fetch("http://scrum-php.herokuapp.com/v1/scrummaster/backlog/"+parseInt(this.props.idProjeto, 10),requestInfo)
+        fetch("http://scrum-php.herokuapp.com/v1/scrummaster/projeto/backlog/"+parseInt(this.props.idProjeto, 10),requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){ 
                 this.setState({msg:""}); 
@@ -30,7 +30,7 @@ export default  class AdicionarSprint extends Component{
             }
         })
         .then(itens =>{
-            if(itens.length)
+            if(itens && itens.length)
                this.setState({itensBacklog:itens});        
             
           });         
@@ -125,7 +125,7 @@ export default  class AdicionarSprint extends Component{
                     </tr>
                 </thead>
                 <tbody>
-                {
+                { this.state.itensBacklog && this.state.itensBacklog.length ?
                 this.state.itensBacklog.map(function(item){
                      return (                            
                         <tr key={item.IDTarefa}>
@@ -136,12 +136,17 @@ export default  class AdicionarSprint extends Component{
                                 onCheck={this.onChange.bind(this)}
                             />
                             </th>
-                            <td>{item.prioridade}</td>
+                            <td>{
+                                item.prioridade === 1 ? "Alta" : "" 
+                             || item.prioridade === 2 ? "Media" : ""
+                             || item.prioridade === 3 ? "Baixa" : ""  }
+                            </td>
                             <td>{item.nome}</td>
                             <td>{item.descricao}</td>
                         </tr>
                        )
-                    }, this)}
+                    }, this)
+                    :<h3>Não existe backlog para este projeto </h3>}
                 </tbody>
                 </table>
             </Dialog>

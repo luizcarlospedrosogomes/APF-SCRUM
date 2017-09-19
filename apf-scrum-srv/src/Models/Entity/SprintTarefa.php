@@ -12,6 +12,8 @@ class SprintTarefa{
     public $id;
     /** @Column(type="datetime",  length=20)**/
     public $dataCriacao;
+      /** @Column(type="text",  length=20)**/
+      public $descricao;
     /**
      * @ManyToOne(targetEntity="SprintBacklog", cascade={"persist"})
      * @JoinColumn(name="sprintBacklog", referencedColumnName="id")
@@ -56,5 +58,13 @@ class SprintTarefa{
     
     public function getNome(){
         return $this->nome;
+    }
+    public function getDescricao(){
+        return $this->descricao;
+    } 
+
+    public function setDescricao($descricao){
+        $this->descricao = $descricao;
+        return $this;
     } 
 }

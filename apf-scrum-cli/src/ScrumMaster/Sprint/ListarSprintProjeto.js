@@ -13,6 +13,7 @@ export default  class ListarSprintProjeto extends Component{
 
     componentWillMount(){
        this.getSprints();
+       
     }
 
     handleToggle = () => {

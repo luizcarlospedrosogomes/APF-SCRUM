@@ -77,6 +77,7 @@ class Sprint{
                                                     , IDENTITY(st.desenvolvedor) as desenvolvedor
                                                     , st.dataCriacao  as dataCriacaoTarefa
                                                     , st.id as IDTarefa
+                                                    , st.descricao 
                                                     from App\Models\Entity\SprintTarefa st
                                                     join App\Models\Entity\SprintBacklog sb
                                                     with st.sprintBacklog = sb.id

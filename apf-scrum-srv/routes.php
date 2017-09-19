@@ -33,6 +33,7 @@ $app->group('/v1', function() {
     $this->group('/scrummaster/projeto', function() {
       $this->get('', '\App\Controller\ScrumMaster:listarProjeto');
       $this->post('/time', '\App\Controller\ScrumMaster:associarTimeAProjeto');
+      $this->get('/backlog/{id_projeto:[0-9]+}', '\App\Controller\Tarefa:Listar');
      });
 
      $this->group('/scrummaster/time', function() {
@@ -46,12 +47,27 @@ $app->group('/v1', function() {
 
      $this->group('/scrummaster/sprint', function() {
         $this->post('/{id_projeto:[0-9]+}', '\App\Controller\Sprint:criar');
-     //   $this->get('/backlog/{id_projeto:[0-9]+}', '\App\Controller\Tarefa:Listar');
-        $this->get('/projeto/{id_projeto:[0-9]+}', '\App\Controller\Sprint:Listar');
-        $this->get('/backlog/{id_sprint:[0-9]+}', '\App\Controller\SprintBacklog:Listar');     
+      // $this->get('/backlog/{id_projeto:[0-9]+}', '\App\Controller\Tarefa:listar');
+        $this->get('/projeto/{id_projeto:[0-9]+}', '\App\Controller\Sprint:listar');
+        $this->get('/backlog/{id_sprint:[0-9]+}', '\App\Controller\SprintBacklog:listar');     
         $this->get('/contar/{id_projeto:[0-9]+}', '\App\Controller\Sprint:contarSprint');
         $this->get('/item/{id_sprint_backlog:[0-9]+}', '\App\Controller\Sprint:getTarefa');
       });
+      
+      $this->group('/scrummaster/tarefa', function() {
+        $this->post('/{id_sprint_backlog:[0-9]+}', '\App\Controller\SprintTarefa:criar');
+      });
+
+      $this->group('/scrummaster/contagem', function() {
+        $this->post('/ALI/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->post('/AIE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->post('/EE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->post('/CE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->post('/SE/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->get('/{tipoContagem}/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:listar');
+        $this->get('/complexidade', '\App\Controller\TipoContagem:complexidade');
+      });
+
     /*$this->group('/scrummaster', function() {
      $this->get('/projeto', '\App\Controller\ScrumMaster:listarProjeto');
      $this->post('/projeto/time', '\App\Controller\ScrumMaster:associarTimeAProjeto');

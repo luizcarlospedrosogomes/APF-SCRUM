@@ -11,6 +11,7 @@ import Logout         from './Login/Logout';
 import Time           from './ScrumMaster/Time/Time';
 import SprintBacklog from './ScrumMaster/Sprint/SprintBacklog';
 import ListarSprintProjeto from './ScrumMaster/Sprint/ListarSprintProjeto';
+import Contagem       from './ScrumMaster/Tarefa/Contagem';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -27,15 +28,16 @@ export default  class App extends Component{
                 </section>
             </main>
                   <Switch> 
-                          <Route  path="/" exact            component={ Login }/>
-                          <Route  path="/logout"            component={ Logout }/>
-                          <Route  path="/productOwner"      component={ ProductOwner }/>
-                          <Route  path="/backlog/:idProjeto" component={ Backlog }/>
-                          <Route  path="/sprint/projeto/:IDProjeto" component={ ListarSprintProjeto }/>
-                          <Route  path="/scrummaster/sprint/:IDSprint" component={ SprintBacklog }/>
-                          <Route  path="/scrumMaster"        component={ ScrumMaster }/>
-                          <Route  path="/time"   component={ Time }/>
-                          <Route  path="/desenvolvedor"      component={ Desenvolvedor }/>
+                          <Route  path="/" exact                                component={ Login }/>
+                          <Route  path="/logout"                                component={ Logout }/>
+                          <Route  path="/productOwner"                          component={ ProductOwner }/>
+                          <Route  path="/backlog/:idProjeto"                    component={ Backlog }/>
+                          <Route  path="/sprint/projeto/:IDProjeto"             component={ ListarSprintProjeto }/>
+                          <Route  path="/scrummaster/sprint/:IDSprint"          component={ SprintBacklog }/>
+                          <Route  path="/scrummaster/contagem/:IDSprintBacklog" component={ Contagem }/>
+                          <Route  path="/scrumMaster"                           component={ ScrumMaster }/>
+                          <Route  path="/time"                                  component={ Time }/>
+                          <Route  path="/desenvolvedor"                         component={ Desenvolvedor }/>
                   </Switch> 
               </div>
               

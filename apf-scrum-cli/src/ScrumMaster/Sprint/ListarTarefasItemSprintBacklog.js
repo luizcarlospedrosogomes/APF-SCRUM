@@ -11,7 +11,9 @@ export default  class ListarTarefasItemSprintBacklog extends Component{
 
     componentWillMount(){
        this.getItensSprintBacklog();
-          
+       PubSub.subscribe('atualizaListaTarefa', function(topico){
+        this.getItensSprintBacklog();
+      }.bind(this)); 
     }
     getItensSprintBacklog(){
         const requestInfo = {
@@ -44,13 +46,13 @@ export default  class ListarTarefasItemSprintBacklog extends Component{
                                         <div className="card-block">
                                                 <div className="row" key={tarefa.IDTarefa}>
                                                 <div className="col-6 col-md-1 col-lg-1">  
-                                                    Tarefa 1
+                                                    {tarefa.nomeTarefa}
                                                 </div>
                                                 <div className="col-6 col-md-3 col-lg-3" >  
-                                                    Data de Inicio:
+                                                    {tarefa.descricao}
                                                 </div>
                                                 <div className="col-6 col-md-3 col-lg-3" >  
-                                                    Data de Fim 
+                                                    Data de Inicio: 
                                                 </div>
                                                 <div className="col-6 col-md-3 col-lg-3">  
                                                     Estimar
