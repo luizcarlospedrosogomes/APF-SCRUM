@@ -16,7 +16,7 @@ export default  class SprintBacklog extends Component{
       }
     componentWillMount(){
         PubSub.subscribe('atualizaListaTarefa', function(topico, tarefa){
-            
+            console.log("TAREFA ID"+tarefa);
             this.props.history.push('/scrummaster/contagem/'+tarefa);
         }.bind(this)); 
         this.getItensSprintBacklog();
@@ -31,7 +31,6 @@ export default  class SprintBacklog extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/sprint/backlog/"+parseInt(this.props.match.params.IDSprint,10), requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201){
-                console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
                 return response.json();
               }if(response.status === 401){
                 console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
@@ -40,7 +39,6 @@ export default  class SprintBacklog extends Component{
         })
         .then(ItensSprintBacklog =>{
             this.setState({ItensSprintBacklog:ItensSprintBacklog});        
-            console.log("DADOS RECEBIDOS:" +ItensSprintBacklog);
           });
     }
     expandir(value) {

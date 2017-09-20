@@ -66,6 +66,7 @@ export default  class AdicionarSprint extends Component{
             body: JSON.stringify({itensSelecionados:this.state.itensSelecionados}),
             headers: new Headers({'X-token': localStorage.getItem('token')})
         };
+        console.log(this.state.itensSelecionados)
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/sprint/"+parseInt(this.props.idProjeto, 10),requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){
@@ -101,7 +102,9 @@ export default  class AdicionarSprint extends Component{
               onClick={this.handleCriarSprint.bind(this)}
             />,
           ];
-      
+        if(!this.state.itensBacklog && !this.state.itensBacklog.length){
+            return (<h5>Não existe backlog para este projeto</h5>)
+        }
          return(
             <div className="col-12 col-md-10 col-lg-10">
                 <RaisedButton label="ADDSprint" onClick={this.handleOpen} />
@@ -146,7 +149,7 @@ export default  class AdicionarSprint extends Component{
                         </tr>
                        )
                     }, this)
-                    :<h3>Não existe backlog para este projeto </h3>}
+                    :<h3>Carregando...</h3>}
                 </tbody>
                 </table>
             </Dialog>

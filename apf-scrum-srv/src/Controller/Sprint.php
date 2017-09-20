@@ -33,16 +33,16 @@ class Sprint{
         $entityManager->flush();
         foreach($dados['itensSelecionados'] as $IDItemBacklog){
             $itemBacklog = $entityManager->getRepository('App\Models\Entity\Tarefa')
-                                    ->find($IDItemBacklog);
+                                    ->find((int)$IDItemBacklog);
             $sprintBacklog = (new SprBacklog())->setItemBacklog($itemBacklog)
                                         ->setSprint($sprint);
-            $entityManager->persist($sprintBacklog);
-            $entityManager->flush();
+        $entityManager->persist($sprintBacklog);
+        $entityManager->flush();
         }
 
         $return = $response->withJson($sprint, 201)
         ->withHeader('Content-type', 'application/json');
-        return $return;   
+        //return $return;   
     }
 
     public function listar($request, $response, $args){
@@ -72,7 +72,7 @@ class Sprint{
         $IDUsuario = $this->getIDToken($request->getHeader('X-token'));       
         $entityManager = $this->container->get('em');
         $IDSprintBacklog = (int) $args['id_sprint_backlog'];
-
+        //var_dump($IDUsuario, $IDSprintBacklog);
         $query = $entityManager->createQuery('select st.nome as nomeTarefa
                                                     , IDENTITY(st.desenvolvedor) as desenvolvedor
                                                     , st.dataCriacao  as dataCriacaoTarefa
@@ -93,7 +93,10 @@ class Sprint{
            'IDSprintBacklog' => $IDSprintBacklog,
            'IDUsuario' => $IDUsuario
         ));
-                                            
+        
+       if(!$query->getResult()){
+            throw new \Exception("sem tarefas cadastradas para este item", 404);
+        }                                        
         $return = $response->withJson($query->getResult(), 200) 
                           ->withHeader('Content-type', 'application/json');
         return $return;

@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 
 export default  class CriarTarefa extends Component{
     
@@ -18,9 +14,7 @@ export default  class CriarTarefa extends Component{
                 
     }
     componentDidMount() {}
-
-    handleChange = (event, index, prioridade) => this.setState({prioridade});   
-    
+   
     salvaAlteracao(nomeInput,evento){
         var campoSendoAlterado = {};
         campoSendoAlterado[nomeInput] = evento.target.value;    
@@ -29,6 +23,7 @@ export default  class CriarTarefa extends Component{
     
     enviaForm(evento){
         evento.preventDefault();
+        console.log(localStorage.getItem('token'));
          const requestInfo = {
             method:'POST',
             body:JSON.stringify({ nome:this.state.nome
@@ -45,20 +40,10 @@ export default  class CriarTarefa extends Component{
             PubSub.publish("atualizaListaTarefa");      
             return response;
         }
-        if(response.status === 400){
-          this.setState({msg:"Verefique os campos.", cod:response.status});
-          throw new Error('Verifique os campos');
-        }
-        if(response.status === 401){
-            console.log("401")
+        if(response.status === 400)
+          this.setState({msg:"Verefique os campos.", cod:response.status})        
+        if(response.status === 401)
             this.props.history.push('/');
-          }
-        else{
-            this.setState({msg:"Entre em contato com o administrador.", cod:response.status});
-            throw new Error('erro: '+ response.status+' nao foi possivel criar seu cadastro');
-        }
-        }).catch(error => {
-            this.setState({msg:error.message});
         });
         
     }
@@ -76,19 +61,17 @@ export default  class CriarTarefa extends Component{
                         onChange={this.salvaAlteracao.bind(this, 'nome')}
                         required
                     />
-                    <MuiThemeProvider>
-                    <SelectField
-                    value={this.state.prioridade}
-                    onChange={this.handleChange}
-                    autoWidth={true}
-                    floatingLabelText="Prioridade"
-                    >
-                    <MenuItem value={1} primaryText="Alta"/>
-                    <MenuItem value={2} primaryText="Media"/>
-                    <MenuItem value={3} primaryText="Baixa"/>
-                    </SelectField>
-                    
-                    </MuiThemeProvider>
+                    <select className="custom-select mb-2 mr-sm-2 mb-sm-0" 
+                    id="inlineFormCustomSelect"
+                    ///value={this.state.time}
+                    onChange={this.salvaAlteracao.bind(this, 'prioridade')}
+                    required
+                            >
+                            <option value="">Prioridade</option>
+                            <option  value={1}>Alta</option>   
+                            <option  value={2}>Média</option> 
+                            <option  value={3}>Baixa</option> 
+                    </select>
                     <textarea 
                         className="form-control mb-2 mr-sm-2 mb-sm-0 input-sm"
                         id="exampleTextarea" 

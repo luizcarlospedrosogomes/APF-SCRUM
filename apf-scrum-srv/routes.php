@@ -43,6 +43,7 @@ $app->group('/v1', function() {
         $this->get('/{id:[0-9]+}', '\App\Controller\Time:visualizar');
         $this->get('/membro/{id_time:[0-9]+}', '\App\Controller\Time:listarMembro');
         $this->delete('/membro/{id_membro:[0-9]+}', '\App\Controller\Time:excluirMembro');
+        $this->post('/membro', '\App\Controller\Time:adicionarMembro');
      });
 
      $this->group('/scrummaster/sprint', function() {

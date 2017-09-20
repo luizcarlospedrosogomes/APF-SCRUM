@@ -19,9 +19,6 @@ export default  class  extends Component{
             this.preencheLista();
         }.bind(this)); 
         
-        PubSub.subscribe('removerMembro', function(topico){
-            this.preencheLista();
-        }.bind(this)); 
         if (localStorage.getItem("token") === null) {
           this.props.history.push('/');
         }
@@ -36,18 +33,14 @@ export default  class  extends Component{
     
             fetch("http://scrum-php.herokuapp.com/v1/scrummaster/time/membro/"+parseInt(this.props.idTime, 10), requestInfo)
             .then(response =>{
-                if(response.status === 200 || response.status === 201){
-                    console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                if(response.status === 200 || response.status === 201)
                     return response.json();
-                  }if(response.status === 401){
-                    console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-                    //this.props.history.push('/logout/representante');
-                  }
+                if(response.status === 401)
+                     this.props.history.push('/');
             })
             .then(membros =>{
                 this.setState({lista:membros});        
-                console.log("DADOS RECEBIDOS:" +membros);
-              });
+            });
         }
         
         removerMembro = (data, e) =>{   
@@ -56,20 +49,19 @@ export default  class  extends Component{
                 method:'DELETE',
                 headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
             };
-            //http://scrum-php.herokuapp.com
+            
             fetch("http://scrum-php.herokuapp.com/v1/scrummaster/time/membro/"+parseInt(data.idMembro, 10),requestInfo)            
             .then(response =>{
             if(response.status === 200 || response.status === 201 ){
-                PubSub.publish("removerMembro");
+                this.preencheLista();
                 this.setState({msg:"membro removido com sucesso"});  
                 return response;
             }
-            if(response.status === 400 || response.status === 404){
+            if(response.status === 400 || response.status === 404)
               this.setState({msg:"nao encontrado."});
-            }
-            if(response.status === 401){
+            if(response.status === 401)
                 this.props.history.push('/');
-              }
+              
             });
         };
        

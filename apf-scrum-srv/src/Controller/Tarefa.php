@@ -30,9 +30,9 @@ class Tarefa{
       // var_dump($dados['id_projeto']);
         $entityManager = $this->container->get('em');
         $projeto = $entityManager->getRepository('App\Models\Entity\Projeto')
-                                 ->find($dados['id_projeto']);
+                                 ->find((int)$dados['id_projeto']);
         $usuario = $entityManager->getRepository('App\Models\Entity\Usuario')
-                                 ->find($idUsuario);
+                                 ->find((int)$idUsuario);
         if(!$projeto || !$usuario){
             throw new \Exception("projeto ou usuario incorretos", 400);
         }

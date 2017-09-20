@@ -85,19 +85,17 @@ export default  class Login extends Component{
                                     <div className="form-group">
                                         <label  className="col-form-label" htmlFor="ftime">Função no time</label>
                                         <div className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg">
-                                        <MuiThemeProvider>
-                                        <SelectField
-                                        value={this.state.tipo}
-                                        onChange={this.handleChange}
-                                        autoWidth={true}
-                                        style={styles.customWidth}
-                                        >
-                                        <MenuItem value={1} primaryText="Scrum Master"/>
-                                        <MenuItem value={2} primaryText="Product Owner"/>
-                                        <MenuItem value={3} primaryText="Desenvolvedor"/>
-                                        </SelectField>
-                                        
-                                        </MuiThemeProvider>
+                                        <select className="custom-select mb-2 mr-sm-2 mb-sm-0" 
+                                        id="inlineFormCustomSelect"
+                                        ///value={this.state.time}
+                                        onChange={this.salvaAlteracao.bind(this, 'tipo')}
+                                        required
+                                                >
+                                                <option value="">selecione</option>
+                                                <option  value={1}>Product Owner</option>   
+                                                <option  value={2}>Scrum Master</option> 
+                                                <option  value={3}>Membro Scrum Team</option> 
+                                        </select>
                                         </div>
                                     </div>
 

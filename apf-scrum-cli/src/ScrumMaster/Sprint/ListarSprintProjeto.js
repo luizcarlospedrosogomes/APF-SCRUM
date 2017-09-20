@@ -13,6 +13,7 @@ export default  class ListarSprintProjeto extends Component{
 
     componentWillMount(){
        this.getSprints();
+       console.log(localStorage.getItem('token'));
        
     }
 
@@ -51,6 +52,19 @@ export default  class ListarSprintProjeto extends Component{
     }  
 
     render(){
+        if(!this.state.sprints && !this.state.sprints.length){
+            return(
+                <div>
+                    <MenuSuperior tipoUsuario="Scrum Master" titulo="Sprints"/>
+                    <div className="container-fluid"> 
+                        <MenuEsquerdo titulo="Sprint"/>      
+                        <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main" key="main">
+                            <h3>NÃO EXISTE SPRINTS PARA ESTE PROJETO</h3>
+                        </main>
+                    </div>
+                </div>
+            );
+        }
          return(
             <div> 
                 <MenuSuperior tipoUsuario="Scrum Master" titulo="Sprints"/>
@@ -59,8 +73,7 @@ export default  class ListarSprintProjeto extends Component{
                     <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main" key="main">
                             <div className="row">
                                 <div className="col-12 col-md-12 col-lg-12"> 
-                                { this.state.sprints && this.state.sprints.length ?
-                                this.state.sprints.map(function(sprint){
+                                { this.state.sprints.map(function(sprint){
                                     return (
                                     <div className="card" key={sprint.IDSprint}>
                                         <div className="card-block">
@@ -85,7 +98,8 @@ export default  class ListarSprintProjeto extends Component{
                                         </div>
                                     </div>
                                     )
-                                }):<h3>NÃO EXISTE SPRINTS PARA ESTE PROJETO</h3>}
+                                })
+                                }
                                     
                                 </div>
                             </div>

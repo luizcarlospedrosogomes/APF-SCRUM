@@ -50,18 +50,16 @@ export default  class CriarTarefa extends Component{
       .then(response =>{
       if(response.status === 200 || response.status === 201 ){
           this.setState({msg:"Tarefa criada com sucesso", cod:response.status});
-         
           this.setState({open: false});         
-          return response;
+          return response.json();
       }
-      if(response.status === 400){
+      if(response.status === 400)
         this.setState({msg:"Verefique os campos.", cod:response.status});
-      }
-      if(response.status === 401){
+      if(response.status === 401)
           this.props.history.push('/');
-        }
       })
       .then(tarefa =>{
+        console.log(tarefa)
         PubSub.publish("atualizaListaTarefa", tarefa.id);
         this.setState({open: false});  
     });

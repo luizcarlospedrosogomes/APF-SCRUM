@@ -52,7 +52,7 @@ export default  class Backlog extends Component{
                   }
             })
             .then(tarefas =>{      
-                if(tarefas.length >0)          
+                if(tarefas && tarefas.length >0)          
                    this.setState({lista:tarefas});        
               });
         }

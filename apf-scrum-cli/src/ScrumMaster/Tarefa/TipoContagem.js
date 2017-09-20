@@ -33,22 +33,20 @@ export default  class TipoContagem extends Component{
                 this.setState({cod:response.status, status:""});
                 return response.json();
             }
-            if(response.status === 404 ){
+            if(response.status === 404 )
                 this.setState({msg:"dados não encontrado", cod:response.status});
-            }
+            
         })
         .then(pontos =>{
-            console.log(pontos.dados)
-            this.setState({lista:pontos.dados, total: pontos.pontos });
+           if(pontos && pontos.dados)
+                this.setState({lista:pontos.dados, total: pontos.pontos });
         })
     }
     
     render(){
-     
-        if(this.state.lista ==''){
-            return(<div></div>);
+        if(Object.keys(this.state.lista).length ===0 ){
+            return(<div></div>)
         }else{
-
          return(
             <MuiThemeProvider>
             <div className="col-md-4 no-gutters">
@@ -65,14 +63,15 @@ export default  class TipoContagem extends Component{
                                     <th><ActionDelete/></th>
                                 </tr>
                                 </thead>
-                                <tbody className="no-gutters">
-                                    {this.state.lista.map((ponto, index) =>
+                                <tbody>
+                                {this.state.lista.map((ponto, index)=>
+                                        
                                         <tr key={index}>
-                                            <td className="no-gutters">{ponto.tr}</td>
-                                            <td className="no-gutters">{ponto.td}</td>
-                                            <td className="no-gutters">{ponto[0].complexidade}</td>
-                                            <td className="no-gutters"> X{ponto[0].ponto}</td>
-                                            <td className="no-gutters">
+                                            <td >{ponto.tr}</td>
+                                            <td >{ponto.td}</td>
+                                            <td >{ponto[0].complexidade}</td>
+                                            <td > X{ponto[0].ponto}</td>
+                                            <td >
                                                 <RemoverContagem
                                                     IDContagem = {ponto.id}
                                                     TRContagem = {ponto.tr}
@@ -83,8 +82,8 @@ export default  class TipoContagem extends Component{
                                                 />
                                             </td>
                                         </tr>
-                                      )}
-
+                                      )
+                                    }
                                     <tr>
                                         <td scope="row">Total</td>
                                         <td colSpan="3" className="text-right">{this.state.total}</td>                                    
