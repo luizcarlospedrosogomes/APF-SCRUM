@@ -20,18 +20,17 @@ export default  class Login extends Component{
             if(response.status === 200 ||  response.status === 201){
                 this.setState({cod:response.status, status:""});
                 return response.json();
-            }else{
+            }else
                 this.setState({status:"", cod:response.status});
-                throw new Error('Não foi possivel fazer o login. Verifique usuario e senha.');
-            }
         }).then(dados =>{
+            console.log(dados.jwt)
             localStorage.setItem('token',dados.jwt);
             if(dados.tipousuario === '1')
                 this.props.history.push('/productOwner');
             if(dados.tipousuario === '2')
                 this.props.history.push('/scrumMaster');
             if(dados.tipousuario === '3')
-                this.props.history.push('/desenvolvedor');
+                this.props.history.push('/scrumTeam');
 
         }).catch(error => {
             this.setState({msg:error.message, cod:500, status:""});

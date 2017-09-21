@@ -78,7 +78,7 @@ class TipoContagem{
         
         return $return;    
     }
-
+    
     public function excluir($request, $response, $args){
         $dados = json_decode($request->getBody(),true); 
         $idUsuario = $this->getIDToken($request->getHeader('X-token')); 
@@ -98,7 +98,7 @@ class TipoContagem{
         return $return;  
     }
 
-    function complexidade($tipo, $td, $tr){
+    public function complexidade($tipo, $td, $tr){
         
         if($tipo == 'ALI' || $tipo == 'AIE'){
             if($tr== 0 || $tr == 1){
@@ -149,7 +149,7 @@ class TipoContagem{
                     return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
                 if ($td > 4 && $td <= 15)
                     return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
-                if($td >= 15)
+                if($td > 15)
                     return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
             } 
         }
@@ -171,7 +171,7 @@ class TipoContagem{
                 if($td > 19)
                     return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
             }
-            if($tr >= 3 ){
+            if($tr > 3 ){
                 if ($td == 1 && $td <= 5)
                     return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
                 if ($td > 5 && $td <= 19)

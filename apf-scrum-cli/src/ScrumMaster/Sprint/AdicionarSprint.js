@@ -66,7 +66,7 @@ export default  class AdicionarSprint extends Component{
             body: JSON.stringify({itensSelecionados:this.state.itensSelecionados}),
             headers: new Headers({'X-token': localStorage.getItem('token')})
         };
-        console.log(this.state.itensSelecionados)
+        
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/sprint/"+parseInt(this.props.idProjeto, 10),requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){

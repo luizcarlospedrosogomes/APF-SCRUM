@@ -15,8 +15,7 @@ export default  class SprintBacklog extends Component{
         this.state = { expanded: false, ItensSprintBacklog:[]};
       }
     componentWillMount(){
-        PubSub.subscribe('atualizaListaTarefa', function(topico, tarefa){
-            console.log("TAREFA ID"+tarefa);
+        PubSub.subscribe('atualizarListaSPrintBacklog', function(topico, tarefa){
             this.props.history.push('/scrummaster/contagem/'+tarefa);
         }.bind(this)); 
         this.getItensSprintBacklog();

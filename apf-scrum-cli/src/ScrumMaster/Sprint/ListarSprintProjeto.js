@@ -13,8 +13,6 @@ export default  class ListarSprintProjeto extends Component{
 
     componentWillMount(){
        this.getSprints();
-       console.log(localStorage.getItem('token'));
-       
     }
 
     handleToggle = () => {

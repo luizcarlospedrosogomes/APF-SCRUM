@@ -60,7 +60,7 @@ export default  class CriarTarefa extends Component{
       })
       .then(tarefa =>{
         console.log(tarefa)
-        PubSub.publish("atualizaListaTarefa", tarefa.id);
+        PubSub.publish("atualizarListaSPrintBacklog", tarefa.id);
         this.setState({open: false});  
     });
     }
@@ -93,7 +93,7 @@ export default  class CriarTarefa extends Component{
             >
             <div className="row">
               <span className="badge badge-danger">{this.state.msg}</span>
-              <form>
+              <form style={{ marginBottom: '0.2cm'}}>
                 <div className="form-group row">
                   <label  htmlFor="example-text-input" 
                         className="col-2 col-md-2 col-lg-2 col-form-label"

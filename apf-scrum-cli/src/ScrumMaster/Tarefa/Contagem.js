@@ -4,6 +4,7 @@ import PubSub from 'pubsub-js';
 import MenuSuperior from '../MenuSuperior';
 import MenuEsquerdo from '../MenuEsquerdo';
 import TipoContagem from './TipoContagem';
+import PegarTarefa from './PegarTarefa';
 
 export default  class Contagem extends Component{
     constructor(props) {
@@ -11,9 +12,7 @@ export default  class Contagem extends Component{
         this.state = {lista : [], msg: '', tipoContagem:'', descricaoALI:'', descricaoTD:''
                       , descricaoTR:'', TD:'', TR:'' };    
     }  
-    
     componentWillMount(){
-      
     }
 
     enviarForm(evento){
@@ -66,10 +65,15 @@ export default  class Contagem extends Component{
              <div className="container-fluid">       
                     <MenuEsquerdo titulo="Contagem"/>
                 <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main">
+
+                    <PegarTarefa IDTarefa={this.props.match.params.IDSprintBacklog}/>
+
                     <div className="row">
                         <h5>Conjunto de dados</h5>
                     </div>
+                    
                     <span>{this.state.msg}</span>
+                    
                     <form onSubmit={this.enviarForm.bind(this)}>
                     <div className="card">
                         <div className="card-block">

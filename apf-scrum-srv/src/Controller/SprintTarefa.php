@@ -45,6 +45,25 @@ class SprintTarefa{
         return $return;   
     }
 
+    public function visualizar($request, $response, $args){
+        $IDUsuario       = $this->getIDToken($request->getHeader('X-token'));       
+        $entityManager   = $this->container->get('em');
+        $IDTarefa = (int) $args['id_tarefa'];
+        //echo "sprinttarefa visualizar";
+        $usuario  = $entityManager->getRepository('App\Models\Entity\Usuario')
+                                    ->findOneBy(array('id' => $IDUsuario));
+        if(!$usuario)
+            throw new \Exception("usuario não encontrado", 404);
+        $tarefa = $entityManager->getRepository('App\Models\Entity\SprintTarefa')
+                                 ->find($IDTarefa);
+        if(!$tarefa)
+            throw new \Exception("tarefa não encontrada", 404);
+        $return = $response->withJson($tarefa, 201)
+                          ->withHeader('Content-type', 'application/json');
+        return $return;   
+        
+    }
+
     function getIDToken($token){
         $key = $this->container->get("secretkey");
         $decoded = JWT::decode($token[0], $key, array('HS256'));

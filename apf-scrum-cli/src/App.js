@@ -5,7 +5,7 @@ import {Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
 import ScrumMaster   from './ScrumMaster/ScrumMaster';
 import ProductOwner  from './ProductOwner/ProductOwner';
 import Backlog       from './ProductOwner/Backlog';
-import Desenvolvedor from './Desenvolvedor/Desenvolvedor';
+import ScrumTeam     from './ScrumTeam/ScrumTeam';
 import Login         from './Login/Login';
 import Logout         from './Login/Logout';
 import Time           from './ScrumMaster/Time/Time';
@@ -37,7 +37,7 @@ export default  class App extends Component{
                           <Route  path="/scrummaster/contagem/:IDSprintBacklog" component={ Contagem }/>
                           <Route  path="/scrumMaster"                           component={ ScrumMaster }/>
                           <Route  path="/time"                                  component={ Time }/>
-                          <Route  path="/desenvolvedor"                         component={ Desenvolvedor }/>
+                          <Route  path="/scrumTeam"                         component={ ScrumTeam }/>
                   </Switch> 
               </div>
               

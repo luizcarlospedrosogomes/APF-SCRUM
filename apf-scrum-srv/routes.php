@@ -61,8 +61,14 @@ $app->group('/v1', function() {
 
       $this->group('/scrummaster/contagem', function() {
         $this->post('/{tipoContagem}/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:criar');
+        $this->get('/tarefa/{id_tarefa:[0-9]+}', '\App\Controller\SprintTarefa:visualizar');
         $this->get('/{tipoContagem}/{id_tarefa:[0-9]+}', '\App\Controller\TipoContagem:listar');
         $this->delete('/{tipoContagem}/{id_contagem:[0-9]+}', '\App\Controller\TipoContagem:excluir');
+      });
+
+      $this->group('/scrumteam/tarefa', function() {
+        $this->get('/time', '\App\Controller\ScrumTeam:getTarefa');
+        $this->post('/{acao}/{id_tarefa:[0-9]+}', '\App\Controller\ScrumTeam:assumirTarefa');
       });
 
     /*$this->group('/scrummaster', function() {
