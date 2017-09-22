@@ -50,25 +50,33 @@ export default  class CriarTime extends Component{
     }
     render(){
          return(
-            <div className="col-12 col-sm-12 col-md-12">
-                <form className="form-inline" onSubmit={this.enviaForm.bind(this)}>
-                <label className="mr-sm-2" htmlFor="nome">Nome Scrum Team</label>
-                <input 
-                    type="text" 
-                    placeholder="Nome Scrum Team" 
-                    id="nome" 
-                    className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg"
-                    value={this.state.nome}
-                    onChange={this.salvaAlteracao.bind(this, 'nome')}
-                    required
-                />
-                <button 
-                    type="submit" 
-                    className="btn btn-primary btn-lg ">
-                    Criar time
-                </button>
-            </form>
-        </div>
+            <div className="row">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="card">
+                    <div className="card-block">
+                        <div className="col-12 col-sm-12 col-md-12">
+                            <form className="form-inline" onSubmit={this.enviaForm.bind(this)}>
+                            <label className="mr-sm-2" htmlFor="nome">Nome Scrum Team</label>
+                            <input 
+                                type="text" 
+                                placeholder="Nome Scrum Team" 
+                                id="nome" 
+                                className="form-control mb-2 mr-sm-2 mb-sm-0 input-lg"
+                                value={this.state.nome}
+                                onChange={this.salvaAlteracao.bind(this, 'nome')}
+                                required
+                            />
+                            <button 
+                                type="submit" 
+                                className="btn btn-primary btn-lg ">
+                                Criar time
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>  
+        </div> 
+    </div>
         );
     }
 }

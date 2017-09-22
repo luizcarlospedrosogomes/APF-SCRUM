@@ -10,12 +10,13 @@ import MenuEsquerdo from './MenuEsquerdo';
 import AdicionarTime from './AdicionarTime';
 import BuscarTime from './BuscarTime';
 import AdiconarSprint from './Sprint/AdicionarSprint';
-import ContarSprints from './Sprint/ContarSprints';
+import ContarSprints from '.././Componentes/ContarSprints';
+import Progess from './../Componentes/Progress';
 
 export default  class ScrumMaster extends Component{
     constructor(props) {
         super(props);
-        this.state = {lista : [], msg: '' };    
+        this.state = {lista : [], status: '', cod:'' };    
       }  
       componentWillMount(){
         this.preencheLista();
@@ -42,7 +43,8 @@ export default  class ScrumMaster extends Component{
         }
       }
 
-      preencheLista(){     
+      preencheLista(){  
+            this.setState({status:'enviando'})   
             const requestInfo = {
                 method:'GET',
                 dataType: 'json',
@@ -51,20 +53,29 @@ export default  class ScrumMaster extends Component{
             fetch("http://scrum-php.herokuapp.com/v1/scrummaster/projeto", requestInfo)
             .then(response =>{
                 if(response.status === 200 || response.status === 201){
-                    console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                    this.setState({cod:response.status, status:'enviado'})
                     return response.json();
-                  }if(response.status === 401){
-                    console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-                    //this.props.history.push('/logout/representante');
-                  }
+                  }else
+                    this.setState({cod:response.status, status:'enviado'})
             })
             .then(projetos =>{
-                this.setState({lista:projetos});        
-                console.log("DADOS RECEBIDOS:" +projetos);
+                if(projetos)
+                    this.setState({lista:projetos});        
               });
         }
 
     render(){
+        if(!this.state.lista){
+            <div>
+            <MenuSuperior tipoUsuario="Scrum Master"/>
+                <div className="container-fluid">       
+                    <MenuEsquerdo titulo="Projetos"/>
+                    <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main">
+                        <h4>Nenhum projeto relacionado ao seu usuario</h4>
+                    </main>
+                </div>
+            </div>
+        }
          return(
             <div>
                  <MenuSuperior tipoUsuario="Scrum Master"/>
@@ -72,6 +83,7 @@ export default  class ScrumMaster extends Component{
                     <MenuEsquerdo titulo="Projetos"/>
                 <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main">
                 <div className="row">
+                <Progess status={this.state.status} tipo='circular'/>
                 { this.state.lista.map(function(projeto){
                          return (
                             
@@ -92,7 +104,7 @@ export default  class ScrumMaster extends Component{
                                                     <div className="card-block" >
                                                     <div className="content h1" >100%</div>
                                                     </div>
-                                                    <div className="card-footer text-center small bg-danger text-white">CONCLUIDO</div>             
+                                                    <div className="card-footer text-center small bg-success text-white">CONCLUIDO</div>             
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6 col-md-6 col-lg-6" >                            
@@ -132,7 +144,7 @@ export default  class ScrumMaster extends Component{
                                         </CardText>
                                         <CardActions>
                                         <div className="row">
-                                                <div className="col-12 col-sm-12 col-md-12 col-lg-12">    
+                                                <div className="col-12 col-md-12 col-lg-12">    
                                                     {projeto.timeProjeto  == null ? 
                                                             <AdicionarTime/> 
                                                             : <BuscarTime 

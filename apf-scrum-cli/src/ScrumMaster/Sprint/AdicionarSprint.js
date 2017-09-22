@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import Checkbox from 'material-ui/Checkbox';
 import PubSub from 'pubsub-js';
 
+import Progess from '../../Componentes/Progress';
+import Mensagens from '../../Componentes/Mensagens';
 
 export default  class AdicionarSprint extends Component{
     constructor() {
         super();    
         this.state = {
-            open: false,msg:'', checked: false, itensBacklog:[], itensSelecionados: [],
+            open: false, status:'', cod:'', checked: false, itensBacklog:[], itensSelecionados: [],
           };
        }
 
     getBacklog(){
-        this.setState({msg:"Carrengando itens do backlog"}); 
+        this.setState({status:'enviando'}); 
         const requestInfo = {
             method:'GET',
             dataType: 'json',
@@ -25,14 +26,14 @@ export default  class AdicionarSprint extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/projeto/backlog/"+parseInt(this.props.idProjeto, 10),requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){ 
-                this.setState({msg:""}); 
+                this.setState({status:'', cod:response.status});
                 return response.json();
-            }
+            }else
+                this.setState({status:'', cod:response.status});
         })
         .then(itens =>{
             if(itens && itens.length)
                this.setState({itensBacklog:itens});        
-            
           });         
     }
 
@@ -60,6 +61,8 @@ export default  class AdicionarSprint extends Component{
       handleCriarSprint(event){
         if(this.state.itensSelecionados.length<1)
             return this.setState({msg:'Selecione 01 item para o sprint.'})
+        
+        this.setState({status:'enviando'});   
         const requestInfo = {
             method:'POST',
             dataType: 'json',
@@ -70,13 +73,10 @@ export default  class AdicionarSprint extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/sprint/"+parseInt(this.props.idProjeto, 10),requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){
-                this.setState({msg:"Sprint criado com sucesso", cod:response.status}); 
+                this.setState({status:'', cod:response.status});
                 return response.json();
-            }
-            if(response.status === 400 || response.status === 401 ){
-                this.setState({msg:"Verefique os dados", cod:response.status});   
-                return;
-            }
+            }else
+                this.setState({status:'', cod:response.status});
         })
         .then(sprint =>{
             PubSub.publish("AdicionarSprint", sprint.id);
@@ -116,8 +116,9 @@ export default  class AdicionarSprint extends Component{
               onRequestClose={this.handleClose}
               autoScrollBodyContent={true}
             >
-           
-            <span>{this.state.msg}</span>
+            
+            <span><Mensagens cod={this.state.cod}/></span>
+            <Progess status={this.state.status}/>
             <table className="table table-hover table-responsive">
                 <thead>
                     <tr>
@@ -149,7 +150,7 @@ export default  class AdicionarSprint extends Component{
                         </tr>
                        )
                     }, this)
-                    :<h3>Carregando...</h3>}
+                    :<Progess tipo="circular" status={this.state.status}/>}
                 </tbody>
                 </table>
             </Dialog>

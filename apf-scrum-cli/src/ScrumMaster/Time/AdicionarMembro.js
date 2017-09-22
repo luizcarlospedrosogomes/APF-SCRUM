@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import PubSub from 'pubsub-js';
 
-export default  class AdicionarMembro extends Component{
-    state = {
-        open: false,msg:'', email:''
-      };
+import Progess from '../../Componentes/Progress';
+import Mensagens from '../../Componentes/Mensagens';
 
-         
+export default  class AdicionarMembro extends Component{
+    
+    constructor(props) {
+      super(props);
+      this.state = { open: false, cod:'', status:'', email:'' };
+    }     
     salvaAlteracao(nomeInput,evento){
         var campoSendoAlterado = {};
         campoSendoAlterado[nomeInput] = evento.target.value;    
@@ -30,6 +32,7 @@ export default  class AdicionarMembro extends Component{
             this.setState({msg:'Email obrigatorio'})
             return
         }
+        this.setState({status:'enviando'})
         evento.preventDefault();
         const requestInfo = {
             method:'POST',
@@ -40,22 +43,12 @@ export default  class AdicionarMembro extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/time/membro",requestInfo)            
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){
-                this.setState({msg:"Tarefa criada com sucesso", cod:response.status, open: false});
-                PubSub.publish("atualizaListaMembro");      
+                this.setState({status:'', cod:response.status, open: false});
+//                PubSub.publish("atualizaListaMembro");      
                 return response;
-            }
-            if(response.status === 400){
-              this.setState({msg:"Verefique os campos.", cod:response.status});
-            }
-            if(response.status === 404){
-                this.setState({msg:"Desenvolvedor nao encontrado.", cod:response.status});
-              }
-            if(response.status === 401){
-                console.log("401")
-                this.props.history.push('/');
-              }
+            }else
+              this.setState({status:'', cod:response.status});
         })
-        //this.handleClose; 
       };
 
       handleCancelar = () => {
@@ -88,7 +81,8 @@ export default  class AdicionarMembro extends Component{
                   onRequestClose={this.handleClose}
                   autoScrollBodyContent={true}
                 >
-                <spna>{this.state.msg}</spna>
+                <span><Mensagens cod={this.state.cod}/></span>
+                <Progess status={this.state.status}/>
                 <form className="form-inline col-12 col-md-6">
                 <label className="mr-sm-2" htmlFor="email">Email</label>
                 <input 

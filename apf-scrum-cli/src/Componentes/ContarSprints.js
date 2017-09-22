@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 
+import Progess from './Progress';
 export default  class ContarSprints extends Component{
     
     constructor(props) {
         super(props);
-        this.state = {NSprint:0, msg: '' };    
+        this.state = {NSprint:0, status: '' };    
       }
     componentWillMount(){
         this.contarSprint();
     }
     contarSprint(){
+        this.setState({status:'enviando'})
         const requestInfo = {
             method:'GET',
             dataType: 'json',
@@ -18,22 +20,23 @@ export default  class ContarSprints extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/sprint/contar/"+this.props.IDProjeto, requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201){
-                console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                this.setState({status:'', cod: response.status})
                 return response.json();
-              }if(response.status === 401){
-                console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-                //this.props.history.push('/logout/representante');
-              }
+            }else
+                this.setState({status:'', cod: response.status})
         })
         .then(NSprint =>{
-            this.setState({NSprint:NSprint});        
-            
+            if(NSprint)
+                this.setState({NSprint:NSprint});        
           });
     }
     
     render(){
          return(
-            <div>{this.state.NSprint}</div>
+            <div>
+                <Progess tipo='circular' status={this.state.status}/>
+                {this.state.NSprint}
+            </div>
         );
     }
 }

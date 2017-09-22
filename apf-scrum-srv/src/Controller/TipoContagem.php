@@ -98,86 +98,86 @@ class TipoContagem{
         return $return;  
     }
 
-    public function complexidade($tipo, $td, $tr){
+    public static function complexidade($tipo, $td, $tr){
         
         if($tipo == 'ALI' || $tipo == 'AIE'){
             if($tr== 0 || $tr == 1){
                 if ($td == 1 || $td <= 19)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if ($td > 19 || $td < 50)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if($td > 50)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
             }
             if($tr > 1 || $tr <= 5){
                 if ($td == 1 || $td <= 19)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if ($td > 19 && $td <= 50)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
                 if($td > 50)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
             }
             if($tr >= 6){
                 if ($td == 1 && $td < 19)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
                 if ($td > 19 && $td < 50)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
                 if($td >= 50)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
             } 
         } 
         
         if($tipo == 'EE'){
             if($tr== 0 || $tr == 1){
                 if ($td == 1 || $td <= 4)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if ($td > 4 || $td <= 15)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if($td > 15)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
             }
             if($tr == 2){
                 if ($td == 1 || $td <= 4)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if ($td > 4 && $td <= 15)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
                 if($td > 15)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
             }
             if($tr >= 3){
                 if ($td == 1 && $td <= 4)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
                 if ($td > 4 && $td <= 15)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
                 if($td > 15)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
             } 
         }
 
         if($tipo == 'SE' || $tipo == 'CE'){
             if($tr== 0 || $tr == 1){
                 if ($td == 1 || $td <= 5)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if ($td > 5 || $td <= 19)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if($td > 19)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
             }
             if($tr > 1 || $tr <= 3){
                 if ($td == 1 || $td <= 5)
-                    return array("complexidade"=>"baixa", "pontos" => $this->getTabComplexidade($tipo, 'baixa'));
+                    return array("complexidade"=>"baixa", "pontos" => self::getTabComplexidade($tipo, 'baixa'));
                 if ($td > 5 && $td <= 19)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
                 if($td > 19)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
             }
             if($tr > 3 ){
                 if ($td == 1 && $td <= 5)
-                    return array("complexidade"=>"media", "pontos" => $this->getTabComplexidade($tipo, 'media'));
+                    return array("complexidade"=>"media", "pontos" => self::getTabComplexidade($tipo, 'media'));
                 if ($td > 5 && $td <= 19)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
                 if($td > 19)
-                    return array("complexidade"=>"alta", "pontos" => $this->getTabComplexidade($tipo, 'alta'));
+                    return array("complexidade"=>"alta", "pontos" => self::getTabComplexidade($tipo, 'alta'));
             } 
         }
     }

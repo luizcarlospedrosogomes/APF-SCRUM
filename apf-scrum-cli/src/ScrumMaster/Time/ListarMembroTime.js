@@ -4,11 +4,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import PubSub from 'pubsub-js';
 import Subheader from 'material-ui/Subheader';
+import Progess from '../../Componentes/Progress';
 
 export default  class  extends Component{
     constructor(props) {
         super(props);
-        this.state = {lista : [], msg: '' };
+        this.state = {lista : [], status: '', cod:'' };
         this.removerMembro = this.removerMembro.bind(this);    
       }
     
@@ -24,7 +25,7 @@ export default  class  extends Component{
         }
       }
       preencheLista(){ 
-    
+            this.setState({status:'enviando'})
             const requestInfo = {
                 method:'GET',
                 dataType: 'json',
@@ -33,18 +34,20 @@ export default  class  extends Component{
     
             fetch("http://scrum-php.herokuapp.com/v1/scrummaster/time/membro/"+parseInt(this.props.idTime, 10), requestInfo)
             .then(response =>{
-                if(response.status === 200 || response.status === 201)
+                if(response.status === 200 || response.status === 201){
+                    this.setState({status:'', cod:response.status})
                     return response.json();
-                if(response.status === 401)
-                     this.props.history.push('/');
+                }else
+                    this.setState({status:'', cod:response.status})
             })
             .then(membros =>{
-                this.setState({lista:membros});        
+                if(membros)
+                    this.setState({lista:membros});        
             });
         }
         
         removerMembro = (data, e) =>{   
-            console.log(data.idMembro);
+            this.setState({status:'enviando'})
             const requestInfo = {
                 method:'DELETE',
                 headers:new Headers({'content-type' : 'application/json',  'X-Token': localStorage.getItem('token')})
@@ -53,24 +56,23 @@ export default  class  extends Component{
             fetch("http://scrum-php.herokuapp.com/v1/scrummaster/time/membro/"+parseInt(data.idMembro, 10),requestInfo)            
             .then(response =>{
             if(response.status === 200 || response.status === 201 ){
-                this.preencheLista();
-                this.setState({msg:"membro removido com sucesso"});  
+                this.setState({status:'', cod:response.status})  
                 return response;
-            }
-            if(response.status === 400 || response.status === 404)
-              this.setState({msg:"nao encontrado."});
-            if(response.status === 401)
-                this.props.history.push('/');
-              
+            }else
+                this.setState({status:'', cod:response.status})
             });
         };
        
     render(){
+        if(!this.state.lista){
+            return(<span>Não existem membros para estes times</span>)
+        }
          return(
             <div>
                 <MuiThemeProvider>
                     <List>
                     <Subheader>Membros do Scrum Team</Subheader>
+                    <Progess status={this.state.status} tipo='circular'/>
                      { this.state.lista.map(function(membro){
                          return ( 
                             <ListItem 

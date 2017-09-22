@@ -42,7 +42,7 @@ class Sprint{
 
         $return = $response->withJson($sprint, 201)
         ->withHeader('Content-type', 'application/json');
-        //return $return;   
+        return $return;   
     }
 
     public function listar($request, $response, $args){
@@ -50,7 +50,7 @@ class Sprint{
         $IDUsuario = $this->getIDToken($request->getHeader('X-token'));       
         $entityManager = $this->container->get('em');
         $IDProjeto = (int) $args['id_projeto'];
-        $query = $this->querySprint("buscar", $entityManager, $IDProjeto, $IDUsuario);
+        $query = $this->querySprint($entityManager, $IDProjeto, $IDUsuario);
             
         $return = $response->withJson($query->getResult(), 200) 
                                ->withHeader('Content-type', 'application/json');
@@ -61,9 +61,9 @@ class Sprint{
         $IDUsuario = $this->getIDToken($request->getHeader('X-token'));       
         $entityManager = $this->container->get('em');
         $IDProjeto = (int) $args['id_projeto'];
-        $query = $this->querySprint("contar",$entityManager, $IDProjeto, $IDUsuario);
+        $query = $this->querySprint($entityManager, $IDProjeto, $IDUsuario);
 
-        $return = $response->withJson($query->getSingleScalarResult(), 200) 
+        $return = $response->withJson(count($query->getResult()), 200) 
                            ->withHeader('Content-type', 'application/json');
         return $return;
     }
@@ -73,7 +73,7 @@ class Sprint{
         $entityManager = $this->container->get('em');
         $IDSprintBacklog = (int) $args['id_sprint_backlog'];
         //var_dump($IDUsuario, $IDSprintBacklog);
-        $query = $entityManager->createQuery('select st.nome as nomeTarefa
+        $query = $entityManager->createQuery('select st.nome as         
                                                     , IDENTITY(st.desenvolvedor) as desenvolvedor
                                                     , st.dataCriacao  as dataCriacaoTarefa
                                                     , st.id as IDTarefa
@@ -103,31 +103,27 @@ class Sprint{
 
     }
 
-    function querySprint($tipoQuery,$entityManager, $IDProjeto, $IDUsuario){
-        $sql ="";
-        if($tipoQuery == "contar"){
-            $sql .="select count(s.id) as IDSprint";
-        }
-        if($tipoQuery == "buscar"){
-            $sql ='select s.id as IDSprint
+    function querySprint($entityManager, $IDProjeto, $IDUsuario){
+        
+        $sql = 'select s.id as IDSprint
             , s.dataCriacao      
             , s.dataEntrega
             , s.pronto
-            , IDENTITY(t.projeto) as IDProjeto';
-        }
-        $sql .=' from App\Models\Entity\SprintBacklog sb
+            , IDENTITY(t.projeto) as IDProjeto
+        
+        from App\Models\Entity\SprintBacklog sb
         join App\Models\Entity\Tarefa t
         with t.id = sb.item_backlog
         join App\Models\Entity\Sprint s
         with s.id = sb.sprint
         join App\Models\Entity\Equipe e
         with e.projeto = t.projeto
-        where 1=1 and e.scrumMaster = :IDUsuario and t.projeto = :IDProjeto and t.prioridade >0';
+        where 1=1 and e.scrumMaster = :IDUsuario and t.projeto = :IDProjeto and t.prioridade >0
         
-        if($tipoQuery == "buscar"){
-            $sql .=' group by s.id, s.dataCriacao, s.dataEntrega, s.pronto, t.prioridade, t.projeto';
-        }
-        //echo $sql;          
+        
+            group by s.id, s.dataCriacao, s.dataEntrega, s.pronto, t.prioridade, t.projeto';
+        
+        
         $query = $entityManager->createQuery($sql);
         $query->setParameters(array(
             'IDProjeto' => $IDProjeto,

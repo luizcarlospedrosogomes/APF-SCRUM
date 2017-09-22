@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import MenuSuperior from '../MenuSuperior';
 import MenuEsquerdo from '../MenuEsquerdo';
-
+import FormatarData from '../../Componentes/FormatarData'
 export default  class ListarSprintProjeto extends Component{
     
     constructor(props) {
@@ -35,13 +37,11 @@ export default  class ListarSprintProjeto extends Component{
         };
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/sprint/projeto/"+parseInt(this.props.match.params.IDProjeto,10), requestInfo)
         .then(response =>{
-            if(response.status === 200 || response.status === 201){
-                console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+            if(response.status === 200 || response.status === 201)
                 return response.json();
-              }if(response.status === 401){
-                console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-                //this.props.history.push('/logout/representante');
-              }
+              if(response.status === 401)
+                ''
+              
         })
         .then(sprints =>{
             if(sprints && sprints.length)
@@ -64,6 +64,7 @@ export default  class ListarSprintProjeto extends Component{
             );
         }
          return(
+            <MuiThemeProvider>
             <div> 
                 <MenuSuperior tipoUsuario="Scrum Master" titulo="Sprints"/>
                 <div className="container-fluid"> 
@@ -71,25 +72,29 @@ export default  class ListarSprintProjeto extends Component{
                     <main className="col-sm-10 ml-sm-auto col-md-10 pt-3" role="main" key="main">
                             <div className="row">
                                 <div className="col-12 col-md-12 col-lg-12"> 
-                                { this.state.sprints.map(function(sprint){
+                                { this.state.sprints.map(function(sprint, i){
                                     return (
-                                    <div className="card" key={sprint.IDSprint}>
+                                    <div className="card" key={i}>
                                         <div className="card-block">
-                                            <div className="row" key={sprint.IDSprint}>
-                                                <div className="col-6 col-md-1 col-lg-1" key={sprint.IDSprint+2001}>  
+                                            <div className="row" key={i}>
+                                                <div className="col-6 col-md-1 col-lg-1" key={i}>  
                                                     Sprint {sprint.IDSprint}
                                                 </div>
-                                                <div className="col-6 col-md-3 col-lg-3" key={sprint.IDSprint+2002}>  
+                                                <div className="col-6 col-md-2 col-lg-2">  
                                                     Data de Inicio:
                                                     <hr/>
-                                                    {sprint.dataCriacao.date}
+                                                    <FormatarData data={sprint.dataCriacao.date}/>
                                                 </div>
-                                                <div className="col-6 col-md-3 col-lg-3" key={sprint.IDSprint+2003}>  
-                                                    Data de Fim 
+                                                <div className="col-6 col-md-2 col-lg-2">  
+                                                    Data Entrega 
                                                     <hr/>
-                                                    {sprint.dataEntrega.date}
+                                                    <FormatarData data={sprint.dataEntrega.date}/>
+                                                    
                                                 </div>
-                                                <div className="col-6 col-md-3 col-lg-3" key={sprint.IDSprint+2004}>  
+                                                <div className="col-6 col-md-3 col-lg-3">  
+                                                    <RaisedButton label="Adicionar item ao sprint"/>
+                                                </div>
+                                                <div className="col-6 col-md-3 col-lg-3" >  
                                                     <Link to={"/scrummaster/sprint/"+sprint.IDSprint}>Tarefas</Link>
                                                 </div>
                                             </div>
@@ -104,6 +109,7 @@ export default  class ListarSprintProjeto extends Component{
                     </main>
                 </div>
             </div>
+            </MuiThemeProvider>
         );
     }
 }

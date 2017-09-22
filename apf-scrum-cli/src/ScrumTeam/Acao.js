@@ -35,12 +35,12 @@ export default  class Acao extends Component{
     render(){
          return(
             <div><RaisedButton label={this.props.label} onClick={this.alterarStatusTarefa}/>
-                 <Snackbar
-            open={this.state.open}
-            message={this.state.msg}
-            autoHideDuration={3000}
-            //onRequestClose={this.handleRequestClose}
-          />
+            <Snackbar
+                open={this.state.open}
+                message={this.state.msg}
+                autoHideDuration={3000}
+                //onRequestClose={this.handleRequestClose}
+            />
             </div>
         );
     }

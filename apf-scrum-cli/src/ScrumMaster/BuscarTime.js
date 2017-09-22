@@ -3,7 +3,7 @@ import PubSub from 'pubsub-js';
 export default  class BuscarTime extends Component{
     constructor(props) {
         super(props);
-        this.state = {lista : [], msg: '', nomeTime:'', idTime:'' };    
+        this.state = {lista : [], status: '', cod:'', nomeTime:'', idTime:'' };    
       }
     
       componentWillMount(){
@@ -14,7 +14,8 @@ export default  class BuscarTime extends Component{
         }
       }
     
-      buscarTime(){     
+      buscarTime(){ 
+        this.setState({status:'enviando'})   
         const requestInfo = {
             method:'GET',
             dataType: 'json',
@@ -23,12 +24,10 @@ export default  class BuscarTime extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/scrummaster/time/"+parseInt(this.props.idTime, 10), requestInfo)
         .then(response =>{
             if(response.status === 200 || response.status === 201){
-                console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                this.setState({status:'', cod:response.status});
                 return response.json();
-              }if(response.status === 401){
-                console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-                //this.props.history.push('/logout/representante');
-              }
+            }else
+                this.setState({status:'', cod:response.status});
         })
         .then(time =>{
             this.setState({nomeTime:time.nome,idTime:time.id});        
@@ -38,6 +37,7 @@ export default  class BuscarTime extends Component{
 
     enviaForm(e){
         e.preventDefault();
+        this.setState({status:'enviando'})
         const requestInfo = {
             method:'DELETE',
             dataType: 'json',
@@ -48,12 +48,10 @@ export default  class BuscarTime extends Component{
         .then(response =>{
             if(response.status === 200 || response.status === 201){
                 PubSub.publish("removerTimeProjeto");  
-                console.log("RESPOSTA DO SERVIDOR, 200, AUTOTIZADO");
+                this.setState({status:'', cod:response.status});
                 return response.json();
-              }if(response.status === 401){
-                console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-                //this.props.history.push('/logout/representante');
-              }
+            }else
+            this.setState({status:'', cod:response.status});              
         })
     }
 

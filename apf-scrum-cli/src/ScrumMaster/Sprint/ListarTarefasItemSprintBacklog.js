@@ -4,6 +4,8 @@ import {List, ListItem} from 'material-ui/List';
 import PubSub from 'pubsub-js';
 import {Link} from 'react-router-dom';
 
+import Pontos from '../../Componentes/Pontos';
+
 export default  class ListarTarefasItemSprintBacklog extends Component{
     constructor(props) {
         super(props);
@@ -59,6 +61,9 @@ export default  class ListarTarefasItemSprintBacklog extends Component{
                                                 </div>
                                                 <div className="col-6 col-md-3 col-lg-3">  
                                                     <Link to={"/scrummaster/contagem/"+tarefa.IDTarefa}>Estimativas</Link>
+                                                </div>
+                                                <div className="col-6 col-md-2 col-lg-2">  
+                                                   Pontos: <Pontos IDTarefa={tarefa.IDTarefa}/>
                                                 </div>
                                             </div>
                                         </div>

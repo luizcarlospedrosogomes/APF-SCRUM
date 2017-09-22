@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import Mensagens from './../Componentes/Mensagens';
+import Progess from './../Componentes/Progress';
 
 const styles = {
     customWidth: {
@@ -14,7 +15,7 @@ export default  class Login extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {msg:''
+        this.state = {status:'', cod:''
                     , email:''
                     , senha:''
                     , tipo: 1
@@ -31,7 +32,7 @@ export default  class Login extends Component{
 
       enviaForm(evento){
         evento.preventDefault();
-        console.log(this.state.tipo)
+        this.setState({status:'enviando'})
          const requestInfo = {
             method:'POST',
             body:JSON.stringify({ email:this.state.email 
@@ -44,19 +45,11 @@ export default  class Login extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/usuario",requestInfo)            
             .then(response =>{
             if(response.status === 200 || response.status === 201 ){
-                this.setState({msg:"Cadastro concluido com sucesso", cod:response.status});
+                this.setState({cod:response.status, status:'enviado'});
                 return response.text();
+            }else{
+                this.setState({cod:response.status, status:'enviado'});
             }
-            if(response.status === 400){
-              this.setState({msg:"Verefique os campos.", cod:response.status});
-              throw new Error('Verifique os campos');
-            }
-            else{
-                this.setState({msg:"Entre em contato com o administrador.", cod:response.status});
-                throw new Error('erro: '+ response.status+' nao foi possivel criar seu cadastro');
-            }
-        }).catch(error => {
-            this.setState({msg:error.message});
         });
         
     }
@@ -67,8 +60,9 @@ export default  class Login extends Component{
             <div>
                     <div className="card">                            
                          <h4 className="card-header bg-success">Cadastro</h4>                          
-                            
+                            <Progess status={this.state.status}/>
                             <div className="card-block">
+                            <span><Mensagens cod={this.state.cod}/></span>
                                 <form onSubmit={this.enviaForm.bind(this)}>
                                     
                                 <div className="form-control input-lg">
@@ -124,7 +118,8 @@ export default  class Login extends Component{
                                     </div>
                                     <div className="form-group row">
                                             <button type="submit" 
-                                            className=" btn-fill btn-block btn btn-success btn-lg">
+                                            
+                                            className={`btn btn-success btn-fill btn-block btn-lg ${this.state.status ==='enviando' ?'disabled': ''}`}>
                                             Cadastrar
                                         </button>                       
                                     </div>

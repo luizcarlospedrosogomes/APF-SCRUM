@@ -52,9 +52,13 @@ class ScrumTeam{
                                                 with sb.item_backlog = ta.id
                                                 join  App\Models\Entity\SprintTarefa st
                                                 with sb.id = st.sprintBacklog
+                                                
                                                 left join App\Models\Entity\TarefaScrumMaster tm
                                                 with tm.tarefa=st.id
-                                                where  mt.desenvolvedor = :idUsuario');
+                                                where  mt.desenvolvedor = :idUsuario 
+                                                
+                                                ');
+                                                
         $tarefa->setParameters(array(
                     'idUsuario' => $idUsuario
         ));

@@ -69,6 +69,10 @@ $app->group('/v1', function() {
       $this->group('/scrumteam/tarefa', function() {
         $this->get('/time', '\App\Controller\ScrumTeam:getTarefa');
         $this->post('/{acao}/{id_tarefa:[0-9]+}', '\App\Controller\ScrumTeam:assumirTarefa');
+        
+      });
+      $this->group('/pontos/tarefa', function() {
+        $this->get('/{id_tarefa:[0-9]+}', '\App\Controller\Pontos:pontosTarefaScrumTeam');
       });
 
     /*$this->group('/scrummaster', function() {

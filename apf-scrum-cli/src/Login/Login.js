@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FormCadastro from './FormCadastro';
+import Mensagens from './../Componentes/Mensagens';
+import Progess from './../Componentes/Progress';
 
 export default  class Login extends Component{
     constructor(props) {
@@ -8,7 +10,7 @@ export default  class Login extends Component{
     }
       login(event){
         event.preventDefault();
-        this.setState({status:"carregando"});
+        this.setState({status:'enviando'});
         const requestInfo = {
             method:'POST',
             body:JSON.stringify({email: this.email.value, senha:this.senha.value}),
@@ -18,22 +20,22 @@ export default  class Login extends Component{
         fetch("http://scrum-php.herokuapp.com/v1/login",requestInfo)            
             .then(response =>{
             if(response.status === 200 ||  response.status === 201){
-                this.setState({cod:response.status, status:""});
+                this.setState({cod:response.status, status:"enviado"});
                 return response.json();
             }else
-                this.setState({status:"", cod:response.status});
+                this.setState({status:"enviado", cod:response.status});
+                
+            
         }).then(dados =>{
-            console.log(dados.jwt)
-            localStorage.setItem('token',dados.jwt);
-            if(dados.tipousuario === '1')
-                this.props.history.push('/productOwner');
-            if(dados.tipousuario === '2')
-                this.props.history.push('/scrumMaster');
-            if(dados.tipousuario === '3')
-                this.props.history.push('/scrumTeam');
-
-        }).catch(error => {
-            this.setState({msg:error.message, cod:500, status:""});
+            if(dados){
+                localStorage.setItem('token',dados.jwt);
+                if(dados.tipousuario === '1')
+                    this.props.history.push('/productOwner');
+                if(dados.tipousuario === '2')
+                    this.props.history.push('/scrumMaster');
+                if(dados.tipousuario === '3')
+                    this.props.history.push('/scrumTeam');
+            }
         })
     }         
   
@@ -48,9 +50,13 @@ export default  class Login extends Component{
                 <div className="row">
                     <div className="col-sm-6">
                         <div className="card">
-                            <h4 className="card-header bg-info">Login</h4>                            
                             
+                            <h4 className="card-header bg-info">Login</h4>                            
+                            <Progess status={this.state.status}/>
                             <div className="card-block">
+                            
+                            <span><Mensagens cod={this.state.cod}/></span>
+
                                 <form onSubmit={this.login.bind(this)}>
                                     <div className="form-group row">    
                                         <input className="form-control" 
@@ -58,6 +64,7 @@ export default  class Login extends Component{
                                          placeholder="Email"
                                          ref={(input) => this.email = input} 
                                          required="true"
+                                        
                                          />
                                     </div>
                                 
@@ -71,7 +78,8 @@ export default  class Login extends Component{
                                 </div>  
                                 <div className="form-group row"> 
                                     <button type="submit" 
-                                            className=" btn-fill btn-block btn btn-info btn-lg">
+                                    className={`btn btn-info btn-fill btn-block btn-lg ${this.state.status ==='enviando' ?'disabled': ''}`}>
+                                            
                                             Entrar
                                     </button>                       
                                 </div>

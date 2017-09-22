@@ -5,26 +5,26 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PubSub from 'pubsub-js';
 
 import Acao from './Acao';
+import Pontos from '../Componentes/Pontos';
 
 export default  class Tarefa extends Component{
     constructor(props) {
         super(props);
         this.state = { open: false, tarefas:[],  status:'AFazer', msg:''};
-        
     }
 
     componentWillMount(){
        this.getTarefas();
-       var fazendo = PubSub.subscribe('Fazendo', function(topico){
+       var fazendo =  PubSub.subscribe('Fazendo', function(topico){
          this.setState({status:'Fazendo'})
         }.bind(this));
         
-        PubSub.subscribe('AFazer', function(topico){
-        var fazer = this.setState({status:'AFazer'})
+        var fazer =  PubSub.subscribe('AFazer', function(topico){
+         this.setState({status:'AFazer'})
         }.bind(this)); 
 
-        PubSub.subscribe('Feito', function(topico){
-        var feito =  this.setState({status:'Feito'})
+        var feito =  PubSub.subscribe('Feito', function(topico){
+            this.setState({status:'Feito'})
         }.bind(this)); 
         var status = PubSub.subscribe('TarefaStatus', function(topico){
             this.getTarefas();
@@ -62,19 +62,19 @@ export default  class Tarefa extends Component{
             return(
             <Paper zDepth={2} style={{marginBottom: '0.2cm'}} key={index}>
             <div className="row">
-                <div className="col-2" key={index}>
+                <div className="col-2 col-md-2" key={index}>
                     {tarefa.nomeItemSprintBacklog}
                 </div>
-                <div className="col-2">
+                <div className="col-2 col-md-2">
                     Sprint: {tarefa.NSprint}
                 </div>
-                <div className="col-2">
+                <div className="col-2 col-md-2">
                     Projeto : {tarefa.nomeProjeto}
                 </div>
-                <div className="col-2">
-                    Pontos {tarefa.IDTarefa}
+                <div className="col-2 col-md-2">
+                    Pontos: <Pontos IDTarefa={tarefa.IDTarefa}/> 
                 </div>
-                <div className="col-2">
+                <div className="col-1 col-md-2">
                     
                     {tarefa.statusConclusao === 0 || tarefa.statusConclusao === null ?
                             tarefa.statusTarefa === null  || tarefa.statusTarefa === 0?
@@ -83,7 +83,7 @@ export default  class Tarefa extends Component{
                         :''
                     }
                 </div>
-                <div className="col-2">
+                <div className="col-2 col-md-2">
                 {tarefa.statusTarefa === 1 && !tarefa.statusConclusao == 1?
                               <Acao label="concluir" IDTarefa={tarefa.IDTarefa}/>
                             : ''

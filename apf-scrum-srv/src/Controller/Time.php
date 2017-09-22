@@ -98,7 +98,9 @@ class Time{
         $desenvolvedor =  $entityManager->getRepository('App\Models\Entity\Usuario')
                                         ->findOneBy(array('email' =>$dados['email'], 'tipoUsuario'=>3));
         if(!$desenvolvedor){
-            throw new \Exception("nenhum desenvolvedor encontrado", 404);
+            $return = $response->withJson("", 404)
+                                ->withHeader('Content-type', 'application/json');            
+            return $return;
         }
         $time =  $entityManager->getRepository('App\Models\Entity\Time')
                                 ->find($dados['id_time']);

@@ -8,7 +8,7 @@ import MenuSuperior from '../MenuSuperior';
 import MenuEsquerdo from '../MenuEsquerdo';
 import ListarTarefasItemSprintBacklog from './ListarTarefasItemSprintBacklog';
 import CriarTarefa from '../Tarefa/CriarTarefa';
-
+import Pontos from '../../Componentes/Pontos';
 export default  class SprintBacklog extends Component{
     constructor(props) {
         super(props);
@@ -71,9 +71,9 @@ export default  class SprintBacklog extends Component{
                              this.state.ItensSprintBacklog.map(function(itens, index){
                                 return ( 
                                     
-                                    <MuiThemeProvider key={itens.IDSprintBacklog+3039403}>
+                                    <MuiThemeProvider key={index}>
                                          
-                                        <Card  key={itens.IDSprintBacklog +itens.IDProjeto+2001} 
+                                        <Card  key={index} 
                                                 expanded={this.state.expanded} 
                                                 onExpandChange={this.handleExpandChange.bind(this)}
                                                 style={{margin:'10px'}}        
@@ -83,13 +83,12 @@ export default  class SprintBacklog extends Component{
                                         
                                             title={<h2 style={{color: 'white'}}>{itens.nomeItemBacklog}</h2>}
                                             subtitle={itens.descricao}
-                                            actAsExpander={true}
-                                            showExpandableButton={true}
                                             style={{backgroundColor: '#1abc9c', color: 'white'}}
+                                            
                                             />
                                                                                         
                                             <CardText 
-                                                key={itens.IDSprintBacklog +itens.IDProjeto+20023} 
+                                                key={index} 
                                                  expandable={false}
                                             >
                                             <div className="collapse" id={"collapseExample"+itens.IDSprintBacklog}>
